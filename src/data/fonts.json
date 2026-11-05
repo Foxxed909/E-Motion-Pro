@@ -1,0 +1,202 @@
+[
+  {
+    "index": 1,
+    "slug": "orbit",
+    "name": "Orbit",
+    "family": "EMP Orbit",
+    "genre": "Geometric",
+    "blurb": "A perfectly round monoline. Calm, orbital, endlessly legible."
+  },
+  {
+    "index": 2,
+    "slug": "filament",
+    "name": "Filament",
+    "family": "EMP Filament",
+    "genre": "Hairline",
+    "blurb": "A wide, whisper-thin hairline built for luxury and silence."
+  },
+  {
+    "index": 3,
+    "slug": "monolith",
+    "name": "Monolith",
+    "family": "EMP Monolith",
+    "genre": "Brutalist",
+    "blurb": "Slab-heavy and square-cut. Type that weighs a tonne."
+  },
+  {
+    "index": 4,
+    "slug": "velocity",
+    "name": "Velocity",
+    "family": "EMP Velocity",
+    "genre": "Speed Italic",
+    "blurb": "Extended, raked forward, built for motion blur."
+  },
+  {
+    "index": 5,
+    "slug": "spindle",
+    "name": "Spindle",
+    "family": "EMP Spindle",
+    "genre": "Condensed",
+    "blurb": "Ultra-condensed verticals for towering headlines."
+  },
+  {
+    "index": 6,
+    "slug": "bubblegum",
+    "name": "Bubblegum",
+    "family": "EMP Bubblegum",
+    "genre": "Soft Display",
+    "blurb": "Inflated, squishy, impossibly friendly."
+  },
+  {
+    "index": 7,
+    "slug": "scriptorium",
+    "name": "Scriptorium",
+    "family": "EMP Scriptorium",
+    "genre": "Calligraphic",
+    "blurb": "A 35° broad nib — the ghost of a medieval scribe."
+  },
+  {
+    "index": 8,
+    "slug": "opera",
+    "name": "Opera",
+    "family": "EMP Opera",
+    "genre": "High Contrast",
+    "blurb": "Vertical stress and razor hairlines. Fashion-week energy."
+  },
+  {
+    "index": 9,
+    "slug": "saloon",
+    "name": "Saloon",
+    "family": "EMP Saloon",
+    "genre": "Reverse Contrast",
+    "blurb": "Fat horizontals, skinny verticals. A wild-west poster gone modern."
+  },
+  {
+    "index": 10,
+    "slug": "constellation",
+    "name": "Constellation",
+    "family": "EMP Constellation",
+    "genre": "Dotted",
+    "blurb": "Letters mapped as star charts — tiny points of light."
+  },
+  {
+    "index": 11,
+    "slug": "pearl",
+    "name": "Pearl",
+    "family": "EMP Pearl",
+    "genre": "Beaded",
+    "blurb": "Strung beads, evenly spaced, glossy and tactile."
+  },
+  {
+    "index": 12,
+    "slug": "telegraph",
+    "name": "Telegraph",
+    "family": "EMP Telegraph",
+    "genre": "Dashed",
+    "blurb": "Dash-dash-dot. Signal fragments forming words."
+  },
+  {
+    "index": 13,
+    "slug": "bitcrush",
+    "name": "Bitcrush",
+    "family": "EMP Bitcrush",
+    "genre": "Bitmap",
+    "blurb": "Every curve crushed onto a hard pixel grid."
+  },
+  {
+    "index": 14,
+    "slug": "lumen",
+    "name": "Lumen",
+    "family": "EMP Lumen",
+    "genre": "LED Matrix",
+    "blurb": "A dot-matrix display, lit one diode at a time."
+  },
+  {
+    "index": 15,
+    "slug": "stitch",
+    "name": "Stitch",
+    "family": "EMP Stitch",
+    "genre": "Cross-Stitch",
+    "blurb": "Hand-embroidered crosses on a digital canvas."
+  },
+  {
+    "index": 16,
+    "slug": "scanline",
+    "name": "Scanline",
+    "family": "EMP Scanline",
+    "genre": "Raster",
+    "blurb": "Horizontal scan beams — a CRT caught mid-refresh."
+  },
+  {
+    "index": 17,
+    "slug": "barcode",
+    "name": "Barcode",
+    "family": "EMP Barcode",
+    "genre": "Raster",
+    "blurb": "Vertical bars. Scan it and it scans you back."
+  },
+  {
+    "index": 18,
+    "slug": "autobahn",
+    "name": "Autobahn",
+    "family": "EMP Autobahn",
+    "genre": "Multiline",
+    "blurb": "Triple racing stripes running in perfect parallel."
+  },
+  {
+    "index": 19,
+    "slug": "neon",
+    "name": "Neon",
+    "family": "EMP Neon",
+    "genre": "Outline",
+    "blurb": "Bent glass tubes, overlapping where the gas glows."
+  },
+  {
+    "index": 20,
+    "slug": "bulkhead",
+    "name": "Bulkhead",
+    "family": "EMP Bulkhead",
+    "genre": "Stencil",
+    "blurb": "Spray-painted on steel. Military-grade cuts."
+  },
+  {
+    "index": 21,
+    "slug": "datamosh",
+    "name": "Datamosh",
+    "family": "EMP Datamosh",
+    "genre": "Glitch",
+    "blurb": "Corrupted slices, displaced scanlines, beautiful errors."
+  },
+  {
+    "index": 22,
+    "slug": "venetian",
+    "name": "Venetian",
+    "family": "EMP Venetian",
+    "genre": "Slatted",
+    "blurb": "Light through blinds. Heavy forms sliced into slats."
+  },
+  {
+    "index": 23,
+    "slug": "graphite",
+    "name": "Graphite",
+    "family": "EMP Graphite",
+    "genre": "Hand-drawn",
+    "blurb": "Restless pencil passes. Sketchy, alive, imperfect."
+  },
+  {
+    "index": 24,
+    "slug": "ribbon",
+    "name": "Ribbon",
+    "family": "EMP Ribbon",
+    "genre": "Twisted",
+    "blurb": "A satin band that twists as it travels."
+  },
+  {
+    "index": 25,
+    "slug": "inkwell",
+    "name": "Inkwell",
+    "family": "EMP Inkwell",
+    "genre": "Brush",
+    "blurb": "Tapered brush strokes with real pressure and release."
+  }
+]

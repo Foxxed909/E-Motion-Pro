@@ -1,0 +1,12 @@
+import { chromium } from 'playwright';
+import fs from 'node:fs';
+const root = process.argv[2], out = process.argv[3];
+const fonts = JSON.parse(fs.readFileSync(root + '/src/data/fonts.json'));
+const css = fonts.map(f => `@font-face{font-family:'${f.family}';src:url('file://${root}/public/fonts/${f.slug}.woff2') format('woff2')}`).join('\n');
+const rows = fonts.map(f => `<div class=r><span class=l>${f.index}. ${f.name}</span><div style="font-family:'${f.family}'">ABCDEFGHIJKLM NOPQRSTUVWXYZ<br>0123456789 !?.,:;'"-/()+=&amp;#*@%&lt;&gt; Motion</div></div>`).join('');
+const html = `<style>${css} body{background:#0b0b0d;color:#eee;margin:20px;font-family:sans-serif} .r{display:flex;gap:20px;align-items:center;border-bottom:1px solid #333;padding:10px 0} .l{width:140px;font-size:13px;color:#999} .r div{font-size:38px;line-height:1.25}</style>${rows}`;
+fs.writeFileSync(out + '.html', html);
+const b = await chromium.launch(); const p = await b.newPage({viewport:{width:1500,height:900}});
+const errs=[]; p.on('console', m=>errs.push(m.text()));
+await p.goto('file://' + out + '.html'); await p.waitForTimeout(800);
+await p.screenshot({path: out + '.png', fullPage: true}); console.log(errs.join('\n')); await b.close();

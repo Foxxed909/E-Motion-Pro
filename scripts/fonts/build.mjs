@@ -1,0 +1,103 @@
+// Build the 25 E-Motion Pro fonts → public/fonts/*.woff2 (+ .otf) and a manifest.
+// Usage: node scripts/fonts/build.mjs [slug ...]
+import fs from "node:fs";
+import path from "node:path";
+import opentype from "opentype.js";
+import wawoff2 from "wawoff2";
+import { glyphs, UPPER } from "./skeleton.mjs";
+import { styles, transformLines } from "./styles.mjs";
+import { orient, area, bbox } from "./geom.mjs";
+
+const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../..");
+const outDir = path.join(root, "public/fonts");
+fs.mkdirSync(outDir, { recursive: true });
+
+const only = process.argv.slice(2);
+const UPM = 1000;
+
+function buildGlyph(style, ch) {
+  const lines = transformLines(glyphs[ch], { sx: style.sx ?? 1, slant: style.slant ?? 0 });
+  const polys = style
+    .render(lines, ch)
+    .map((p) => p.map(([x, y]) => [Math.round(x), Math.round(y)]))
+    .filter((p) => p.length >= 3 && Math.abs(area(p)) > 2)
+    .map(orient);
+  const b = bbox(polys);
+  const sb = style.sb ?? 50;
+  const dx = sb - b.x0;
+  const p = new opentype.Path();
+  for (const poly of polys) {
+    poly.forEach(([x, y], i) => (i ? p.lineTo(x + dx, y) : p.moveTo(x + dx, y)));
+    p.close();
+  }
+  return { path: p, advance: Math.round(b.x1 - b.x0 + sb * 2), contours: polys.length };
+}
+
+async function buildFont(style) {
+  const list = [
+    new opentype.Glyph({ name: ".notdef", unicode: 0, advanceWidth: 500, path: new opentype.Path() }),
+    new opentype.Glyph({ name: "space", unicode: 32, advanceWidth: Math.round(280 * (style.sx ?? 1)), path: new opentype.Path() }),
+  ];
+  let contours = 0;
+  for (const ch of Object.keys(glyphs)) {
+    const g = buildGlyph(style, ch);
+    contours += g.contours;
+    const code = ch.charCodeAt(0);
+    const unicodes = [code];
+    if (UPPER.includes(ch)) unicodes.push(ch.toLowerCase().charCodeAt(0));
+    list.push(
+      new opentype.Glyph({
+        name: "uni" + code.toString(16).toUpperCase().padStart(4, "0"),
+        unicode: code,
+        unicodes,
+        advanceWidth: g.advance,
+        path: g.path,
+      }),
+    );
+  }
+  const family = `EMP ${style.name}`;
+  const font = new opentype.Font({
+    familyName: family,
+    styleName: "Regular",
+    unitsPerEm: UPM,
+    ascender: 860,
+    descender: -240,
+    designer: "E-Motion Pro",
+    manufacturer: "E-Motion Pro",
+    license: "SIL Open Font License 1.1",
+    version: "1.000",
+    description: style.blurb,
+    glyphs: list,
+  });
+  const otf = Buffer.from(font.toArrayBuffer());
+  const woff2 = Buffer.from(await wawoff2.compress(otf));
+  fs.writeFileSync(path.join(outDir, `${style.slug}.otf`), otf);
+  fs.writeFileSync(path.join(outDir, `${style.slug}.woff2`), woff2);
+  return { contours, otf: otf.length, woff2: woff2.length };
+}
+
+const manifest = [];
+for (const style of styles) {
+  if (only.length && !only.includes(style.slug)) {
+    manifest.push(style);
+    continue;
+  }
+  const t = Date.now();
+  const info = await buildFont(style);
+  manifest.push(style);
+  console.log(
+    `${style.name.padEnd(14)} ${String(info.contours).padStart(6)} contours  ` +
+      `${(info.woff2 / 1024).toFixed(1).padStart(6)} KB woff2  ${Date.now() - t}ms`,
+  );
+}
+
+const meta = manifest.map((s, i) => ({
+  index: i + 1,
+  slug: s.slug,
+  name: s.name,
+  family: `EMP ${s.name}`,
+  genre: s.genre,
+  blurb: s.blurb,
+}));
+fs.writeFileSync(path.join(root, "src/data/fonts.json"), JSON.stringify(meta, null, 2) + "\n");
+console.log(`\nWrote ${meta.length} fonts to public/fonts and src/data/fonts.json`);
