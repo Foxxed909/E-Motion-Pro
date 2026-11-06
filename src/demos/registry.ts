@@ -56,6 +56,8 @@ export const DEMOS: Demo[] = [
   { slug: "velocity-marquee", title: "Velocity Marquee", genre: "typography", blurb: "Counter-scrolling bands that skew and accelerate with pointer speed.", tags: ["marquee", "skew"], tone: "#120d1f", hint: "Move fast across the stage" },
 
   // Transitions
+  { slug: "slice-swipe", title: "Slice Swipe", genre: "transitions", blurb: "The outgoing page shatters into skewed slices that fly apart.", tags: ["clip-path", "stagger"], tone: "#0b0b0b" },
+  { slug: "menu-takeover", title: "Menu Takeover", genre: "transitions", blurb: "A tiny button bursts into a full-screen menu with staggered links.", tags: ["clip-path", "menu"], tone: "#e9e5dd", hint: "Tap the button" },
   { slug: "curtain-wipe", title: "Curtain Wipe", genre: "transitions", blurb: "Staggered panels sweep across a mock site between routes.", tags: ["route", "stagger"], tone: "#111" },
   { slug: "circle-portal", title: "Circle Portal", genre: "transitions", blurb: "The next page grows out of exactly where you clicked.", tags: ["clip-path", "pointer"], tone: "#0d0d12", hint: "Click anywhere" },
   { slug: "pixel-dissolve", title: "Pixel Dissolve", genre: "transitions", blurb: "A grid of tiles flips in a diagonal wave to swap scenes.", tags: ["grid", "wave"], tone: "#08080a" },
@@ -102,6 +104,8 @@ export const DEMOS: Demo[] = [
   { slug: "exploded-ui", title: "Exploded UI", genre: "depth", blurb: "An interface separated into isometric layers.", tags: ["isometric", "layers"], tone: "#ecebe6" },
 
   // Loaders
+  { slug: "skeleton-shimmer", title: "Skeleton Shimmer", genre: "loaders", blurb: "Shimmering placeholders resolve into real content with a stagger.", tags: ["skeleton", "stagger"], tone: "#0b0b10" },
+  { slug: "gyroscope", title: "Gyroscope", genre: "loaders", blurb: "Nested 3D rings spinning on alternating axes around a glowing core.", tags: ["3d", "css"], tone: "#060608" },
   { slug: "loader-lab", title: "Loader Lab", genre: "loaders", blurb: "Nine original loaders in one grid.", tags: ["loop", "css"], tone: "#0c0c0f" },
   { slug: "liquid-progress", title: "Liquid Progress", genre: "loaders", blurb: "A vessel filling with sloshing liquid as progress climbs.", tags: ["svg", "wave"], tone: "#0b1020" },
 
@@ -112,15 +116,20 @@ export const DEMOS: Demo[] = [
   { slug: "synth-horizon", title: "Synth Horizon", genre: "retro", blurb: "An endless neon grid racing toward a striped sun.", tags: ["canvas", "80s"], tone: "#0d0221" },
 
   // Data
+  { slug: "live-ticker", title: "Live Ticker", genre: "data", blurb: "A streaming chart whose price rolls digit by digit with the trend.", tags: ["svg", "realtime"], tone: "#0a0c0b" },
+  { slug: "bar-race", title: "Bar Race", genre: "data", blurb: "A bar-chart race that reorders itself every year.", tags: ["layout", "race"], tone: "#0d0d10" },
   { slug: "chart-morph", title: "Chart Morph", genre: "data", blurb: "One dataset morphing between bars, line and radial views.", tags: ["svg", "morph"], tone: "#0d0d10" },
   { slug: "activity-rings", title: "Activity Rings", genre: "data", blurb: "Concentric progress rings with counting stats.", tags: ["svg", "count"], tone: "#000" },
 
   // Organic
+  { slug: "liquid-text", title: "Liquid Text", genre: "organic", blurb: "Type melting through an animated turbulence displacement filter.", tags: ["svg filter", "turbulence"], tone: "#0b0b10", hint: "Hover to stir" },
   { slug: "dot-lens", title: "Dot Lens", genre: "organic", blurb: "A field of dots bulging and glowing under a moving lens.", tags: ["canvas", "lens"], tone: "#08070c", hint: "Glide over the dots" },
   { slug: "gooey-blobs", title: "Gooey Blobs", genre: "organic", blurb: "Metaball blobs that melt into each other and chase you.", tags: ["svg filter", "pointer"], tone: "#ff4f2e", hint: "Lead the blobs" },
   { slug: "blob-morph", title: "Blob Morph", genre: "organic", blurb: "Organic shapes breathing through endless mutations.", tags: ["svg", "path"], tone: "#0b0b10" },
 
   // Editorial
+  { slug: "kinetic-poster", title: "Kinetic Poster", genre: "editorial", blurb: "A Swiss poster that re-composes its type and shapes to a beat.", tags: ["poster", "spring"], tone: "#1a1a1a" },
+  { slug: "accordion-gallery", title: "Accordion Gallery", genre: "editorial", blurb: "Panels that expand on a spring while the rest fold into spines.", tags: ["flex", "hover"], tone: "#0b0b0b", hint: "Hover a panel" },
   { slug: "swiss-shuffle", title: "Swiss Shuffle", genre: "editorial", blurb: "A Bauhaus grid that reorganises itself to a beat.", tags: ["grid", "layout"], tone: "#f3efe7" },
   { slug: "hover-index", title: "Hover Index", genre: "editorial", blurb: "An editorial list with a floating preview chasing the cursor.", tags: ["list", "pointer"], tone: "#0b0b0b", hint: "Hover the list" },
 ];
