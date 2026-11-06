@@ -1,4 +1,4 @@
-// Build the 25 E-Motion Pro fonts → public/fonts/*.woff2 (+ .otf) and a manifest.
+// Build the E-Motion Pro fonts → public/fonts/*.woff2 (+ .otf) and a manifest.
 // Usage: node scripts/fonts/build.mjs [slug ...]
 import fs from "node:fs";
 import path from "node:path";
@@ -19,9 +19,13 @@ function buildGlyph(style, ch) {
   const lines = transformLines(glyphs[ch], { sx: style.sx ?? 1, slant: style.slant ?? 0 });
   const polys = style
     .render(lines, ch)
-    .map((p) => p.map(([x, y]) => [Math.round(x), Math.round(y)]))
+    .map((p) => {
+      const q = p.map(([x, y]) => [Math.round(x), Math.round(y)]);
+      q.hole = p.hole;
+      return q;
+    })
     .filter((p) => p.length >= 3 && Math.abs(area(p)) > 2)
-    .map(orient);
+    .map((p) => (p.hole ? orient(p).reverse() : orient(p)));
   const b = bbox(polys);
   const sb = style.sb ?? 50;
   const dx = sb - b.x0;
@@ -31,6 +35,55 @@ function buildGlyph(style, ch) {
     p.close();
   }
   return { path: p, advance: Math.round(b.x1 - b.x0 + sb * 2), contours: polys.length };
+}
+
+/** Rebuild an sfnt binary without one table, recomputing offsets and checksums. */
+function withoutTable(buf, drop) {
+  const numTables = buf.readUInt16BE(4);
+  const tables = [];
+  for (let i = 0; i < numTables; i++) {
+    const o = 12 + i * 16;
+    const tag = buf.toString("latin1", o, o + 4);
+    if (tag === drop) continue;
+    const offset = buf.readUInt32BE(o + 8);
+    const length = buf.readUInt32BE(o + 12);
+    tables.push({ tag, data: Buffer.from(buf.subarray(offset, offset + length)) });
+  }
+  tables.sort((a, b) => (a.tag < b.tag ? -1 : 1));
+  const n = tables.length;
+  const pad4 = (x) => (x + 3) & ~3;
+  const checksum = (b) => {
+    const p = Buffer.concat([b, Buffer.alloc(pad4(b.length) - b.length)]);
+    let sum = 0;
+    for (let i = 0; i < p.length; i += 4) sum = (sum + p.readUInt32BE(i)) >>> 0;
+    return sum;
+  };
+  const head = tables.find((t) => t.tag === "head");
+  if (head) head.data.writeUInt32BE(0, 8); // checkSumAdjustment computed below
+  let offset = 12 + n * 16;
+  const dir = Buffer.alloc(12 + n * 16);
+  buf.copy(dir, 0, 0, 4); // sfnt version
+  const es = Math.floor(Math.log2(n));
+  dir.writeUInt16BE(n, 4);
+  dir.writeUInt16BE(2 ** es * 16, 6);
+  dir.writeUInt16BE(es, 8);
+  dir.writeUInt16BE(n * 16 - 2 ** es * 16, 10);
+  const bodies = [];
+  tables.forEach((t, i) => {
+    const o = 12 + i * 16;
+    dir.write(t.tag, o, 4, "latin1");
+    dir.writeUInt32BE(checksum(t.data), o + 4);
+    dir.writeUInt32BE(offset, o + 8);
+    dir.writeUInt32BE(t.data.length, o + 12);
+    bodies.push(t.data, Buffer.alloc(pad4(t.data.length) - t.data.length));
+    offset += pad4(t.data.length);
+  });
+  const out = Buffer.concat([dir, ...bodies]);
+  if (head) {
+    const headOffset = dir.readUInt32BE(12 + tables.indexOf(head) * 16 + 8);
+    out.writeUInt32BE((0xb1b0afba - checksum(out)) >>> 0, headOffset + 8);
+  }
+  return out;
 }
 
 async function buildFont(style) {
@@ -69,7 +122,9 @@ async function buildFont(style) {
     description: style.blurb,
     glyphs: list,
   });
-  const otf = Buffer.from(font.toArrayBuffer());
+  // opentype.js emits an 'ltag' table that some parsers (e.g. Satori, used for social
+  // images) cannot read. It is optional, so re-pack the font without it.
+  const otf = withoutTable(Buffer.from(font.toArrayBuffer()), "ltag");
   const woff2 = Buffer.from(await wawoff2.compress(otf));
   fs.writeFileSync(path.join(outDir, `${style.slug}.otf`), otf);
   fs.writeFileSync(path.join(outDir, `${style.slug}.woff2`), woff2);

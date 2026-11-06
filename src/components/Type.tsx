@@ -7,7 +7,7 @@ import { EASE } from "@/lib/motion";
 
 const ALL_SLUGS = FONTS.map((f) => f.slug);
 
-/** Each character independently hops between the 25 E-Motion Pro typefaces. */
+/** Each character independently hops between all the E-Motion Pro typefaces. */
 export function FontCycle({
   text,
   className,

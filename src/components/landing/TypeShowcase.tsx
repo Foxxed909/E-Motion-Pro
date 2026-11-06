@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { FONTS } from "@/lib/fonts";
 import { Reveal } from "../Type";
 import { EASE } from "@/lib/motion";
+import { FONT_COUNT, PIECE_COUNT, GENRE_COUNT } from "@/lib/counts";
 
 export function TypeShowcase() {
   const [i, setI] = useState(0);
@@ -24,9 +25,9 @@ export function TypeShowcase() {
           <div className="mb-6 flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.3em] text-mute sm:text-xs">
             <span className="h-px w-10 bg-mute" /> Original typefaces
           </div>
-          <Reveal as="h2" text="25 fonts. All new. Drawn by code." className="block text-[11vw] font-medium leading-[0.9] tracking-[-0.04em] text-ink sm:text-[6.5vw] lg:text-[4.8vw]" />
+          <Reveal as="h2" text={`${FONT_COUNT} fonts. All new. Drawn by code.`} className="block text-[11vw] font-medium leading-[0.9] tracking-[-0.04em] text-ink sm:text-[6.5vw] lg:text-[4.8vw]" />
           <p className="mt-6 max-w-[48ch] text-mute">
-            One hand-built letter skeleton, rendered 25 ways by our own font engine: broad-nib pens, LED matrices, stencil cuts,
+            One hand-built letter skeleton, rendered {FONT_COUNT} ways by our own font engine: broad-nib pens, LED matrices, stencil cuts,
             neon tubes, glitch slices, pencil passes. Every face is a real OpenType font, free to download.
           </p>
           <Link href="/fonts" className="mt-8 inline-flex items-center gap-3 rounded-full border border-ink/30 px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:bg-ink hover:text-void">
@@ -60,7 +61,7 @@ export function TypeShowcase() {
             className="mt-3 w-full rounded-full border border-line bg-transparent px-5 py-3 font-mono text-sm text-ink outline-none transition-colors focus:border-acid"
             placeholder="Type something…"
           />
-          <div className="mt-4 grid grid-cols-5 gap-2 sm:grid-cols-[repeat(13,minmax(0,1fr))]">
+          <div className="mt-4 grid grid-cols-6 gap-2 sm:grid-cols-[repeat(15,minmax(0,1fr))]">
             {FONTS.map((x, k) => (
               <button
                 key={x.slug}

@@ -5,13 +5,15 @@ import { useState } from "react";
 import { FONTS, type EmpFont } from "@/lib/fonts";
 import { FontCycle, Reveal } from "./Type";
 import { EASE } from "@/lib/motion";
+import { FONT_COUNT, PIECE_COUNT, GENRE_COUNT } from "@/lib/counts";
 
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,:;!?'\"-/()+=&#*@%<>_".split("");
 
 function Specimen({ f, text, size, open, toggle }: { f: EmpFont; text: string; size: number; open: boolean; toggle: () => void }) {
   return (
     <motion.li
-      className="border-t border-line py-8"
+      id={f.slug}
+      className="scroll-mt-48 border-t border-line py-8"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10% 0px" }}
@@ -78,13 +80,13 @@ export function FontsView() {
             <span className="h-px w-10 bg-mute" /> The type foundry
           </div>
           <h1 className="text-[15vw] leading-[0.82] tracking-[-0.03em] text-ink sm:text-[10vw]">
-            <FontCycle text="25 Faces" interval={160} chance={0.25} />
+            <FontCycle text={`${FONT_COUNT} Faces`} interval={160} chance={0.25} />
           </h1>
         </div>
         <div className="space-y-4 text-mute">
           <Reveal as="p" className="block text-lg text-ink" text="Every typeface here was generated for E-Motion Pro by our own font engine." />
           <p className="text-sm">
-            One centre-line skeleton, 63 glyphs, 25 rendering styles: monolines, broad-nib sweeps, pixel grids, dot screens,
+            One centre-line skeleton, 63 glyphs, {FONT_COUNT} rendering styles: monolines, broad-nib sweeps, pixel grids, dot screens,
             stencil cuts, tubes, slices and pencil passes. Display caps; lowercase maps to caps. Free under the SIL Open Font License.
           </p>
         </div>
@@ -95,7 +97,7 @@ export function FontsView() {
           <input
             value={text}
             onChange={(e) => setText(e.target.value.slice(0, 60))}
-            placeholder="Type to preview all 25…"
+            placeholder={`Type to preview all ${FONT_COUNT}…`}
             aria-label="Preview text"
             className="min-w-0 flex-1 rounded-full border border-line bg-transparent px-5 py-2.5 font-mono text-sm text-ink outline-none focus:border-acid"
           />

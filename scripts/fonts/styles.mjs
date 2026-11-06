@@ -1,4 +1,4 @@
-// The 25 original E-Motion Pro typefaces.
+// The 30 original E-Motion Pro typefaces.
 // Each style takes the shared skeleton (array of polylines per glyph) and
 // returns closed polygons. "transform" adjusts the skeleton first.
 
@@ -303,6 +303,93 @@ function sketch({ passes, h, amp }) {
 
 // ---------- skeleton transforms ----------
 
+function rotLines(lines, ang) {
+  const c = Math.cos(ang), sn = Math.sin(ang);
+  return lines.map((pl) => pl.map(([x, y]) => [x * c - y * sn, x * sn + y * c]));
+}
+
+/** Diagonal hatching inside a heavy stroke: horizontal runs in a rotated frame. */
+function hatch({ pitch, bar, h, angle }) {
+  const a = (angle * Math.PI) / 180;
+  const inner = runs({ pitch, bar, h, axis: "x" });
+  return (lines, ch) => inner(rotLines(lines, -a), ch).map((poly) => rotatePoly(poly, [0, 0], a));
+}
+
+/** Zig-zag "electrified" centre line. */
+function voltage({ amp, step, h }) {
+  return (lines) => {
+    const out = [];
+    for (const pl of lines) {
+      if (pathLength(pl) < 2) {
+        out.push(rotatePoly(rect(pl[0][0], pl[0][1], h * 4, h * 4), pl[0], Math.PI / 4));
+        continue;
+      }
+      const closed = isClosed(pl);
+      let pts = resample(pl, step);
+      if (closed && pts.length % 2) pts = resample(pl, step * 1.04);
+      const zz = pts.map((p, i) => {
+        const a = pts[Math.max(0, i - 1)];
+        const b = pts[Math.min(pts.length - 1, i + 1)];
+        const n = perp(norm(sub(b, a)));
+        const k = i === 0 || (!closed && i === pts.length - 1) ? 0 : i % 2 ? 1 : -1;
+        return add(p, mul(n, amp * k));
+      });
+      if (closed) zz.push(zz[0]);
+      out.push(...strokePolyline(zz, { h, cap: "round", join: "miter" }));
+    }
+    return out;
+  };
+}
+
+/** Hollow rings strung along the strokes (holes are flagged for the builder). */
+function halo({ spacing, r, line }) {
+  return (lines) => {
+    const out = [];
+    const seen = [];
+    for (const pl of lines)
+      for (const p of resample(pl, spacing)) {
+        if (seen.some((q) => dist(p, q) < spacing * 0.45)) continue;
+        seen.push(p);
+        out.push(circle(p, r, 28));
+        const hole = circle(p, r - line, 28);
+        hole.hole = true;
+        out.push(hole);
+      }
+    return out;
+  };
+}
+
+/** Thin outlines stacked diagonally: a wireframe extrusion. */
+function echo({ copies, dx, dy, h }) {
+  return (lines) => {
+    const out = [];
+    for (let k = copies - 1; k >= 0; k--)
+      for (const pl of lines) {
+        const moved = pl.map(([x, y]) => [x + dx * k, y + dy * k]);
+        out.push(...strokePolyline(moved, { h: k === 0 ? h * 2.4 : h, cap: "round", join: "round" }));
+      }
+    return out;
+  };
+}
+
+/** Pixel grid with hand-laid, slightly crooked tiles. */
+function mosaic({ cell, h }) {
+  return (lines, ch) => {
+    const segs = segmentsOf(lines);
+    const b = bbox(lines);
+    const r = rng(ch.charCodeAt(0) * 7919 + 3);
+    const out = [];
+    for (let i = Math.floor((b.x0 - h) / cell); i <= Math.ceil((b.x1 + h) / cell); i++)
+      for (let j = Math.floor((b.y0 - h) / cell); j <= Math.ceil((b.y1 + h) / cell); j++) {
+        const c = [(i + 0.5) * cell, (j + 0.5) * cell];
+        const rv = r();
+        const rot = (r() - 0.5) * 0.45;
+        if (distToSegs(c, segs) <= h) out.push(rotatePoly(rect(c[0], c[1], cell * (0.62 + rv * 0.3), cell * (0.62 + rv * 0.3)), c, rot));
+      }
+    return out;
+  };
+}
+
 function densify(pl, step = 18) {
   const out = [pl[0]];
   for (let i = 1; i < pl.length; i++) {
@@ -472,5 +559,35 @@ export const styles = [
       cap: "round", join: "round",
       hAt: (s, u) => 52 * (0.1 + 0.9 * Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, u))), 0.55)),
     }),
+  },
+  {
+    slug: "hatch", name: "Hatch", genre: "Engraved",
+    blurb: "Heavy forms engraved with fine diagonal hatching.",
+    sb: 40,
+    render: hatch({ pitch: 24, bar: 11, h: 70, angle: 45 }),
+  },
+  {
+    slug: "voltage", name: "Voltage", genre: "Electric",
+    blurb: "A live wire zig-zagging through every stroke.",
+    sb: 48,
+    render: voltage({ amp: 24, step: 34, h: 8 }),
+  },
+  {
+    slug: "halo", name: "Halo", genre: "Hollow Dots",
+    blurb: "Rings of light strung like a marquee sign.",
+    sb: 40,
+    render: halo({ spacing: 58, r: 26, line: 9 }),
+  },
+  {
+    slug: "echo", name: "Echo", genre: "Extruded",
+    blurb: "Wireframe letters receding into depth.",
+    sb: 46,
+    render: echo({ copies: 6, dx: 14, dy: -12, h: 4 }),
+  },
+  {
+    slug: "mosaic", name: "Mosaic", genre: "Tiled",
+    blurb: "Hand-laid tiles, each one a little crooked.",
+    sb: 34,
+    render: mosaic({ cell: 44, h: 46 }),
   },
 ];

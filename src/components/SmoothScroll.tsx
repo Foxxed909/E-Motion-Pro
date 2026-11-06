@@ -28,7 +28,25 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
+    const toHash = () => {
+      const id = decodeURIComponent(window.location.hash.slice(1));
+      const el = id && document.getElementById(id);
+      if (!el) return false;
+      if (lenis) lenis.scrollTo(el, { offset: -40 });
+      else el.scrollIntoView({ behavior: "smooth" });
+      return true;
+    };
+    if (window.location.hash) {
+      const t = setTimeout(toHash, 450);
+      window.addEventListener("hashchange", toHash);
+      return () => {
+        clearTimeout(t);
+        window.removeEventListener("hashchange", toHash);
+      };
+    }
     lenis?.scrollTo(0, { immediate: true });
+    window.addEventListener("hashchange", toHash);
+    return () => window.removeEventListener("hashchange", toHash);
   }, [pathname, lenis]);
 
   return <LenisCtx.Provider value={lenis}>{children}</LenisCtx.Provider>;

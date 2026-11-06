@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const SCRIPT = [
   "E-MOTION BIOS v2.6 (c) 2026",
   "CPU: KINETIC-9 @ 120 FPS ........ OK",
-  "MEM: 25 TYPEFACES LOADED ......... OK",
+  "MEM: 30 TYPEFACES LOADED ......... OK",
   "GPU: SHADERS COMPILED ........... OK",
   "MOUNTING /dev/imagination ....... OK",
   "",

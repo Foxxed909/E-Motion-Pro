@@ -121,3 +121,18 @@ body {
     display: none;
   }
 }
+
+/* Shiki output */
+.source-code pre {
+  background: transparent !important;
+  counter-reset: line;
+}
+.source-code code .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2.5em;
+  margin-right: 1.25em;
+  text-align: right;
+  color: #3a3a40;
+}

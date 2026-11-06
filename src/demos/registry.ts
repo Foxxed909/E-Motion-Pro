@@ -48,7 +48,8 @@ export type Demo = {
 
 export const DEMOS: Demo[] = [
   // Kinetic type
-  { slug: "font-roulette", title: "Font Roulette", genre: "typography", blurb: "Every glyph spins through all 25 E-Motion Pro typefaces before landing.", tags: ["type", "custom fonts"], tone: "#0b0b0f", hint: "Hover the word to re-roll" },
+  { slug: "text-path", title: "Type on a Path", genre: "typography", blurb: "Words surfing living sine waves and a spinning badge.", tags: ["svg", "textPath"], tone: "#0b0b10" },
+  { slug: "font-roulette", title: "Font Roulette", genre: "typography", blurb: "Every glyph spins through all 30 E-Motion Pro typefaces before landing.", tags: ["type", "custom fonts"], tone: "#0b0b0f", hint: "Hover the word to re-roll" },
   { slug: "split-reveal", title: "Split Reveal", genre: "typography", blurb: "Character-level masked reveals with rotational overshoot, looping through headlines.", tags: ["stagger", "mask"], tone: "#ff4f2e" },
   { slug: "decoder", title: "Decoder", genre: "typography", blurb: "Phrases resolve out of cipher noise, glyph by glyph.", tags: ["scramble", "mono"], tone: "#050505" },
   { slug: "magnetic-type", title: "Magnetic Type", genre: "typography", blurb: "Letters repel from the cursor on springs, then snap home.", tags: ["physics", "pointer"], tone: "#d4ff3a", hint: "Sweep your pointer through the letters" },
@@ -61,6 +62,7 @@ export const DEMOS: Demo[] = [
   { slug: "shared-zoom", title: "Shared Zoom", genre: "transitions", blurb: "Cards morph seamlessly into full-bleed detail views.", tags: ["layout", "shared element"], tone: "#f3efe7", hint: "Open a card" },
 
   // Micro
+  { slug: "spotlight-cards", title: "Spotlight Cards", genre: "micro", blurb: "A shared light source that glows through every card border.", tags: ["gradient", "pointer"], tone: "#08080b", hint: "Move across the grid" },
   { slug: "liquid-buttons", title: "Liquid Buttons", genre: "micro", blurb: "Magnetic pills with fills that pour in from the pointer's entry point.", tags: ["buttons", "magnetic"], tone: "#0d0d0d", hint: "Hover and press" },
   { slug: "morph-toggles", title: "Morph Toggles", genre: "micro", blurb: "Day/night switch, heart burst and self-drawing checkbox.", tags: ["svg", "spring"], tone: "#1a1530", hint: "Tap everything" },
   { slug: "submit-flow", title: "Submit Flow", genre: "micro", blurb: "A button that becomes a loader, then a triumphant check.", tags: ["state", "morph"], tone: "#0e1512", hint: "Press send" },
@@ -74,11 +76,13 @@ export const DEMOS: Demo[] = [
   { slug: "notification-stack", title: "Notification Stack", genre: "app", blurb: "Collapsed notifications fan open into a list.", tags: ["stack", "spring"], tone: "#202230", hint: "Hover the stack" },
 
   // Scroll
+  { slug: "zoom-through", title: "Zoom Through", genre: "scroll", blurb: "Scroll flies the camera straight through a letterform into the next scene.", tags: ["svg mask", "scale"], tone: "#0b0b0b", hint: "Scroll inside" },
   { slug: "parallax-peaks", title: "Parallax Peaks", genre: "scroll", blurb: "Layered mountain ranges at different depths, scrubbed by scroll.", tags: ["parallax", "scroll"], tone: "#140c22", hint: "Scroll inside" },
   { slug: "stacking-cards", title: "Stacking Cards", genre: "scroll", blurb: "Sticky cards that stack and recede as new ones arrive.", tags: ["sticky", "scale"], tone: "#0c0c0c", hint: "Scroll inside" },
   { slug: "word-light", title: "Word Light", genre: "scroll", blurb: "A manifesto that illuminates word by word as you read.", tags: ["scrub", "opacity"], tone: "#0b0b0b", hint: "Scroll inside" },
 
   // Shaders
+  { slug: "lava-lamp", title: "Lava Lamp", genre: "shader", blurb: "Smooth-min metaballs of glowing wax that rise, merge and split.", tags: ["glsl", "sdf"], tone: "#000", hint: "Your pointer is a blob" },
   { slug: "aurora", title: "Aurora", genre: "shader", blurb: "Domain-warped fractal noise painting curtains of polar light.", tags: ["glsl", "fbm"], tone: "#000", hint: "Move to bend the light" },
   { slug: "liquid-chrome", title: "Liquid Chrome", genre: "shader", blurb: "Molten metal surfaces with fake environment reflections.", tags: ["glsl", "metal"], tone: "#000" },
   { slug: "warp-tunnel", title: "Warp Tunnel", genre: "shader", blurb: "An infinite polar-coordinate tunnel at light speed.", tags: ["glsl", "polar"], tone: "#000", hint: "Steer with the pointer" },
@@ -86,11 +90,13 @@ export const DEMOS: Demo[] = [
   { slug: "halftone-wave", title: "Halftone Wave", genre: "shader", blurb: "Print-style dot screens rippling like water.", tags: ["glsl", "halftone"], tone: "#000", hint: "Hover to drop ripples" },
 
   // Particles
+  { slug: "verlet-rope", title: "Verlet Ropes", genre: "particles", blurb: "Hanging ropes simulated with Verlet integration. Push them around.", tags: ["canvas", "verlet"], tone: "#060609", hint: "Swing through the ropes" },
   { slug: "particle-type", title: "Particle Type", genre: "particles", blurb: "Thousands of particles assemble into words and scatter from your touch.", tags: ["canvas", "physics"], tone: "#050507", hint: "Disturb the particles" },
   { slug: "flow-field", title: "Flow Field", genre: "particles", blurb: "Agents tracing invisible currents into silk.", tags: ["canvas", "noise"], tone: "#07060a" },
   { slug: "constellation-net", title: "Constellation Net", genre: "particles", blurb: "Drifting nodes linking up when they get close.", tags: ["canvas", "graph"], tone: "#03040a", hint: "Your pointer is a star" },
 
   // Depth
+  { slug: "infinite-canvas", title: "Infinite Canvas", genre: "depth", blurb: "A boundless, draggable wall of type specimens with inertia.", tags: ["drag", "wrap"], tone: "#060608", hint: "Drag in any direction" },
   { slug: "holo-card", title: "Holo Card", genre: "depth", blurb: "A foil trading card with tilt, glare and iridescent shift.", tags: ["3d", "tilt"], tone: "#0d0b14", hint: "Tilt the card" },
   { slug: "orbit-carousel", title: "Orbit Carousel", genre: "depth", blurb: "A 3D ring of panels you can spin with a drag.", tags: ["3d", "drag"], tone: "#0a0a0a", hint: "Drag to spin" },
   { slug: "exploded-ui", title: "Exploded UI", genre: "depth", blurb: "An interface separated into isometric layers.", tags: ["isometric", "layers"], tone: "#ecebe6" },
@@ -100,6 +106,7 @@ export const DEMOS: Demo[] = [
   { slug: "liquid-progress", title: "Liquid Progress", genre: "loaders", blurb: "A vessel filling with sloshing liquid as progress climbs.", tags: ["svg", "wave"], tone: "#0b1020" },
 
   // Retro
+  { slug: "split-flap", title: "Split-Flap", genre: "retro", blurb: "A departure board that flips every character into place.", tags: ["3d flip", "stagger"], tone: "#0b0b0b" },
   { slug: "rgb-glitch", title: "RGB Glitch", genre: "retro", blurb: "Channel-split title with slice displacement bursts.", tags: ["glitch", "css"], tone: "#000" },
   { slug: "crt-boot", title: "CRT Boot", genre: "retro", blurb: "A phosphor terminal booting with scanlines and flicker.", tags: ["terminal", "typing"], tone: "#020a04" },
   { slug: "synth-horizon", title: "Synth Horizon", genre: "retro", blurb: "An endless neon grid racing toward a striped sun.", tags: ["canvas", "80s"], tone: "#0d0221" },
@@ -109,6 +116,7 @@ export const DEMOS: Demo[] = [
   { slug: "activity-rings", title: "Activity Rings", genre: "data", blurb: "Concentric progress rings with counting stats.", tags: ["svg", "count"], tone: "#000" },
 
   // Organic
+  { slug: "dot-lens", title: "Dot Lens", genre: "organic", blurb: "A field of dots bulging and glowing under a moving lens.", tags: ["canvas", "lens"], tone: "#08070c", hint: "Glide over the dots" },
   { slug: "gooey-blobs", title: "Gooey Blobs", genre: "organic", blurb: "Metaball blobs that melt into each other and chase you.", tags: ["svg filter", "pointer"], tone: "#ff4f2e", hint: "Lead the blobs" },
   { slug: "blob-morph", title: "Blob Morph", genre: "organic", blurb: "Organic shapes breathing through endless mutations.", tags: ["svg", "path"], tone: "#0b0b10" },
 

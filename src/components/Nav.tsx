@@ -6,8 +6,12 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { FontCycle, Scramble } from "./Type";
 import { Magnetic } from "./Magnetic";
+import { SoundToggle } from "./Sound";
+import { PaletteButton } from "./CommandPalette";
+import { setPaletteOpen } from "@/lib/palette";
 import { EASE } from "@/lib/motion";
 import { DEMOS } from "@/demos/registry";
+import { FONTS } from "@/lib/fonts";
 
 const LINKS = [
   { href: "/gallery", label: "Gallery" },
@@ -60,11 +64,20 @@ export function Nav() {
               );
             })}
           </ul>
-          <div className="hidden font-mono text-xs uppercase tracking-[0.2em] text-ink/70 md:block">
-            {DEMOS.length} pieces / 25 fonts
+          <div className="hidden items-center gap-6 md:flex">
+            <span className="hidden font-mono text-xs uppercase tracking-[0.2em] text-ink/70 xl:inline">
+              {DEMOS.length} pieces / {FONTS.length} fonts
+            </span>
+            <PaletteButton />
+            <SoundToggle />
           </div>
+          <div className="relative z-10 flex items-center gap-3 md:hidden">
+            <button onClick={() => setPaletteOpen(true)} className="flex h-10 w-10 items-center justify-center text-ink" aria-label="Search">
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.6}><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4.5 4.5" strokeLinecap="round" /></svg>
+            </button>
+            <SoundToggle />
           <button
-            className="relative z-10 flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+            className="relative z-10 flex h-10 w-10 flex-col items-center justify-center gap-1.5"
             onClick={() => setOpen((o) => !o)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
@@ -72,6 +85,7 @@ export function Nav() {
             <motion.span className="block h-px w-6 bg-ink" animate={open ? { rotate: 45, y: 3.5 } : { rotate: 0, y: 0 }} />
             <motion.span className="block h-px w-6 bg-ink" animate={open ? { rotate: -45, y: -3.5 } : { rotate: 0, y: 0 }} />
           </button>
+          </div>
         </nav>
       </header>
       <AnimatePresence>

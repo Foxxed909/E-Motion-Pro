@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { DEMOS, demoBySlug } from "@/demos/registry";
 import { DetailView } from "@/components/DetailView";
 import { Footer } from "@/components/Footer";
+import { getPieceSource } from "@/lib/source";
 
 export const dynamicParams = false;
 
@@ -18,9 +19,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function MotionPage({ params }: { params: Promise<{ slug: string }> }) {
   const demo = demoBySlug((await params).slug);
   if (!demo) notFound();
+  const source = await getPieceSource(demo.slug);
   return (
     <>
-      <DetailView demo={demo} />
+      <DetailView demo={demo} source={source} />
       <Footer />
     </>
   );

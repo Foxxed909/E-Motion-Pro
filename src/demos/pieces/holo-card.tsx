@@ -70,11 +70,11 @@ export default function HoloCard({ mini }: { mini?: boolean }) {
         <div className="absolute inset-0 opacity-30 mix-blend-overlay" style={{ backgroundImage: "repeating-radial-gradient(circle at 50% 120%, #fff 0 1px, transparent 1px 6px)" }} />
         <div className="absolute inset-x-[8%] top-[6%] flex justify-between font-mono text-[1.8cqh] uppercase tracking-[0.25em] text-white/80">
           <span>E-Motion</span>
-          <span>★ 25/25</span>
+          <span>★ 30/30</span>
         </div>
         <div className="absolute inset-0 flex items-center justify-center" style={{ transform: "translateZ(60px)" }}>
           <span className="font-neon text-white drop-shadow-[0_0_20px_rgba(255,92,168,.8)]" style={{ fontSize: "26cqh", lineHeight: 1 }}>
-            25
+            30
           </span>
         </div>
         <div className="absolute inset-x-[8%] bottom-[7%] text-white" style={{ transform: "translateZ(40px)" }}>

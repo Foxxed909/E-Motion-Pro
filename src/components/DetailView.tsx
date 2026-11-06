@@ -8,8 +8,12 @@ import { DEMOS, genreById, type Demo } from "@/demos/registry";
 import { Reveal } from "./Type";
 import { Magnetic } from "./Magnetic";
 import { EASE } from "@/lib/motion";
+import { useRouter } from "next/navigation";
+import type { PieceSource } from "@/lib/source";
+import { SourceView } from "./SourceView";
 
-export function DetailView({ demo }: { demo: Demo }) {
+export function DetailView({ demo, source }: { demo: Demo; source: PieceSource | null }) {
+  const router = useRouter();
   const [replay, setReplay] = useState(0);
   const stageRef = useRef<HTMLDivElement>(null);
   const i = DEMOS.findIndex((d) => d.slug === demo.slug);
@@ -22,10 +26,12 @@ export function DetailView({ demo }: { demo: Demo }) {
       if ((e.target as HTMLElement)?.tagName === "INPUT") return;
       if (e.key.toLowerCase() === "r") setReplay((r) => r + 1);
       if (e.key.toLowerCase() === "f") stageRef.current?.requestFullscreen?.();
+      if (e.key === "ArrowRight") router.push(`/motion/${next.slug}`);
+      if (e.key === "ArrowLeft") router.push(`/motion/${prev.slug}`);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [router, next.slug, prev.slug]);
 
   return (
     <article className="px-4 pb-16 pt-24 sm:px-8 sm:pt-28">
@@ -97,10 +103,12 @@ export function DetailView({ demo }: { demo: Demo }) {
         </dl>
       </div>
 
-      <nav className="grid gap-px overflow-hidden rounded-2xl bg-line sm:grid-cols-2" aria-label="More pieces">
+      {source && <SourceView src={source} />}
+
+      <nav className="mt-12 grid gap-px overflow-hidden rounded-2xl bg-line sm:grid-cols-2" aria-label="More pieces">
         {[
-          { d: prev, label: "← Previous" },
-          { d: next, label: "Next →" },
+          { d: prev, label: "← Previous (←)" },
+          { d: next, label: "Next (→) →" },
         ].map(({ d, label }, k) => (
           <Link key={d.slug} href={`/motion/${d.slug}`} className={`group relative overflow-hidden bg-void p-6 sm:p-10 ${k ? "sm:text-right" : ""}`} data-cursor="go">
             <span className="absolute inset-0 origin-bottom scale-y-0 bg-acid transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-y-100" />

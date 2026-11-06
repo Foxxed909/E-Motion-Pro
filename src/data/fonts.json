@@ -198,5 +198,45 @@
     "family": "EMP Inkwell",
     "genre": "Brush",
     "blurb": "Tapered brush strokes with real pressure and release."
+  },
+  {
+    "index": 26,
+    "slug": "hatch",
+    "name": "Hatch",
+    "family": "EMP Hatch",
+    "genre": "Engraved",
+    "blurb": "Heavy forms engraved with fine diagonal hatching."
+  },
+  {
+    "index": 27,
+    "slug": "voltage",
+    "name": "Voltage",
+    "family": "EMP Voltage",
+    "genre": "Electric",
+    "blurb": "A live wire zig-zagging through every stroke."
+  },
+  {
+    "index": 28,
+    "slug": "halo",
+    "name": "Halo",
+    "family": "EMP Halo",
+    "genre": "Hollow Dots",
+    "blurb": "Rings of light strung like a marquee sign."
+  },
+  {
+    "index": 29,
+    "slug": "echo",
+    "name": "Echo",
+    "family": "EMP Echo",
+    "genre": "Extruded",
+    "blurb": "Wireframe letters receding into depth."
+  },
+  {
+    "index": 30,
+    "slug": "mosaic",
+    "name": "Mosaic",
+    "family": "EMP Mosaic",
+    "genre": "Tiled",
+    "blurb": "Hand-laid tiles, each one a little crooked."
   }
 ]

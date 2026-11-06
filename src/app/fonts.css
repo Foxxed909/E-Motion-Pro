@@ -199,3 +199,43 @@
 .font-inkwell {
   font-family: "EMP Inkwell", var(--font-geist-sans), sans-serif;
 }
+@font-face {
+  font-family: "EMP Hatch";
+  src: url("/fonts/hatch.woff2") format("woff2");
+  font-display: swap;
+}
+.font-hatch {
+  font-family: "EMP Hatch", var(--font-geist-sans), sans-serif;
+}
+@font-face {
+  font-family: "EMP Voltage";
+  src: url("/fonts/voltage.woff2") format("woff2");
+  font-display: swap;
+}
+.font-voltage {
+  font-family: "EMP Voltage", var(--font-geist-sans), sans-serif;
+}
+@font-face {
+  font-family: "EMP Halo";
+  src: url("/fonts/halo.woff2") format("woff2");
+  font-display: swap;
+}
+.font-halo {
+  font-family: "EMP Halo", var(--font-geist-sans), sans-serif;
+}
+@font-face {
+  font-family: "EMP Echo";
+  src: url("/fonts/echo.woff2") format("woff2");
+  font-display: swap;
+}
+.font-echo {
+  font-family: "EMP Echo", var(--font-geist-sans), sans-serif;
+}
+@font-face {
+  font-family: "EMP Mosaic";
+  src: url("/fonts/mosaic.woff2") format("woff2");
+  font-display: swap;
+}
+.font-mosaic {
+  font-family: "EMP Mosaic", var(--font-geist-sans), sans-serif;
+}

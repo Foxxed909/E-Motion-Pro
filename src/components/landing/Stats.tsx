@@ -3,6 +3,7 @@
 import { animate, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { DEMOS, GENRES } from "@/demos/registry";
+import { FONTS } from "@/lib/fonts";
 
 function Counter({ to, run }: { to: number; run: boolean }) {
   const [v, setV] = useState(0);
@@ -17,7 +18,7 @@ function Counter({ to, run }: { to: number; run: boolean }) {
 const STATS = [
   { n: DEMOS.length, label: "Live pieces", font: "bitcrush" },
   { n: GENRES.length, label: "Genres", font: "lumen" },
-  { n: 25, label: "Original fonts", font: "neon" },
+  { n: FONTS.length, label: "Original fonts", font: "neon" },
   { n: 0, label: "Stock images", font: "monolith" },
 ];
 

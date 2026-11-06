@@ -6,8 +6,9 @@ import { FontCycle } from "../Type";
 import { useLenis } from "../SmoothScroll";
 import { EASE } from "@/lib/motion";
 import { setIntroDone } from "@/lib/intro";
+import { FONT_COUNT, PIECE_COUNT, GENRE_COUNT } from "@/lib/counts";
 
-/** Counts to 100 while glyphs cycle through the 25 fonts, then splits open. Runs once per session. */
+/** Counts to 100 while glyphs cycle through every font, then splits open. Runs once per session. */
 export function Preloader() {
   const [show, setShow] = useState(true);
   const [n, setN] = useState(0);
@@ -69,7 +70,7 @@ export function Preloader() {
               <div className="flex items-end justify-between">
                 <span className="font-bitcrush text-[22vw] leading-[0.8] text-acid sm:text-[14vw]">{String(n).padStart(3, "0")}</span>
                 <span className="max-w-[18ch] text-right font-mono text-[10px] uppercase tracking-[0.25em] text-mute sm:text-xs">
-                  43 pieces · 13 genres · 25 original typefaces
+                  {PIECE_COUNT} pieces · {GENRE_COUNT} genres · {FONT_COUNT} original typefaces
                 </span>
               </div>
               <div className="mt-4 h-px w-full bg-line">

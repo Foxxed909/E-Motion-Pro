@@ -15,7 +15,7 @@ const TILES: { id: number; span?: string; el: React.ReactNode; bg: string }[] = 
   { id: 6, bg: R, el: <span className="h-[70%] w-[70%] rotate-45 bg-[#111]" /> },
   { id: 7, bg: Y, span: "col-span-2", el: <span className="font-mono text-[2cqh] uppercase tracking-[0.4em] text-[#111]">Function → Motion</span> },
   { id: 8, bg: B, el: <span className="h-[70%] w-[70%] rounded-full border-[1.5cqh] border-[#f6c20f]" /> },
-  { id: 9, bg: C, el: <span className="font-orbit text-[10cqh] leading-none text-[#e63b2e]">25</span> },
+  { id: 9, bg: C, el: <span className="font-orbit text-[10cqh] leading-none text-[#e63b2e]">30</span> },
 ];
 
 const shuffle = <T,>(a: T[]) => {

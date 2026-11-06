@@ -8,6 +8,7 @@ import { Magnetic } from "../Magnetic";
 import { EASE } from "@/lib/motion";
 import { useIntroDone } from "@/lib/intro";
 import Link from "next/link";
+import { FONT_COUNT, PIECE_COUNT, GENRE_COUNT } from "@/lib/counts";
 
 const SILK = GLSL_NOISE + `
 uniform float u_scroll;
@@ -110,7 +111,7 @@ export function Hero() {
             transition={{ delay: 1.7 + D, duration: 1.2, ease: EASE.expo }}
           >
             A cinematic library of animations, transitions and motion graphics for apps and websites. Every piece runs live, and
-            every letter on this site is set in one of <span className="text-acid">25 typefaces</span> we drew for it.
+            every letter on this site is set in one of <span className="text-acid">{FONT_COUNT} typefaces</span> we drew for it.
           </motion.p>
           <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={ready ? { opacity: 1, scale: 1 } : undefined} transition={{ delay: 1.9 + D, duration: 1, ease: EASE.back }}>
             <Magnetic>
