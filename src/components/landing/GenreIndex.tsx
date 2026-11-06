@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Stage } from "@/demos/Stage";
 import { GENRES, demosInGenre } from "@/demos/registry";
 import { EASE } from "@/lib/motion";
+import { SectionLabel } from "../SectionLabel";
 
 export function GenreIndex() {
   const [active, setActive] = useState<number | null>(null);
@@ -17,13 +18,16 @@ export function GenreIndex() {
   return (
     <section
       id="genres"
-      className="relative scroll-mt-20 px-4 py-[16vh] sm:px-8"
+      className="relative scroll-mt-20 px-4 pb-[10vh] pt-[14vh] sm:px-8"
       onPointerMove={(e) => {
         x.set(e.clientX);
         y.set(e.clientY);
       }}
       onPointerLeave={() => setActive(null)}
     >
+      <div className="mb-6">
+        <SectionLabel n={3}>Genres</SectionLabel>
+      </div>
       <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
         <h2 className="text-[12vw] font-medium leading-[0.85] tracking-[-0.04em] text-ink sm:text-[7vw]">
           Every genre

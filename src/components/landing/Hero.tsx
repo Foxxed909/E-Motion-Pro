@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { GLSL_NOISE, ShaderCanvas } from "../ShaderCanvas";
 import { FontCycle } from "../Type";
@@ -37,6 +37,63 @@ void main(){
   gl_FragColor = vec4(max(col, 0.), 1.);
 }`;
 
+/** One headline letter that drifts with the cursor; outer letters sit "closer" and move more. */
+function DepthLetter({ i, n, mx, my, children }: { i: number; n: number; mx: MotionValue<number>; my: MotionValue<number>; children: React.ReactNode }) {
+  const depth = 0.35 + Math.abs(i - (n - 1) / 2) / ((n - 1) / 2);
+  const x = useTransform(mx, (v) => v * 14 * depth);
+  const y = useTransform(my, (v) => v * 10 * depth);
+  const rotate = useTransform(mx, (v) => v * 2.5 * (i - (n - 1) / 2) / n);
+  return (
+    <motion.span className="inline-block" style={{ x, y, rotate }}>
+      {children}
+    </motion.span>
+  );
+}
+
+/** Cinematic overlay: corner brackets, live cursor readout and an FPS meter. */
+function Hud({ show }: { show: boolean }) {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [fps, setFps] = useState(60);
+  useEffect(() => {
+    const move = (e: PointerEvent) => setPos({ x: e.clientX, y: e.clientY });
+    window.addEventListener("pointermove", move, { passive: true });
+    let frames = 0;
+    let last = performance.now();
+    let id = 0;
+    const tick = (now: number) => {
+      frames++;
+      if (now - last >= 500) {
+        setFps(Math.round((frames * 1000) / (now - last)));
+        frames = 0;
+        last = now;
+      }
+      id = requestAnimationFrame(tick);
+    };
+    id = requestAnimationFrame(tick);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      cancelAnimationFrame(id);
+    };
+  }, []);
+  const corner = "absolute h-4 w-4 border-ink/40";
+  return (
+    <motion.div className="pointer-events-none absolute inset-3 z-10 hidden sm:block" initial={{ opacity: 0 }} animate={{ opacity: show ? 1 : 0 }} transition={{ duration: 1.2, delay: 1.2 }} aria-hidden>
+      <span className={`${corner} left-0 top-0 border-l border-t`} />
+      <span className={`${corner} right-0 top-0 border-r border-t`} />
+      <span className={`${corner} bottom-0 left-0 border-b border-l`} />
+      <span className={`${corner} bottom-0 right-0 border-b border-r`} />
+      <div className="absolute right-6 top-24 space-y-1 text-right font-mono text-[10px] uppercase tracking-[0.25em] text-ink/50">
+        <div>
+          x <span className="text-ink/80">{String(pos.x).padStart(4, "0")}</span> · y <span className="text-ink/80">{String(pos.y).padStart(4, "0")}</span>
+        </div>
+        <div>
+          <span className="text-acid">{fps}</span> fps · webgl
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function Clock() {
   const [t, setT] = useState("");
   useEffect(() => {
@@ -57,6 +114,19 @@ export function Hero() {
   const blur = useTransform(scrollYProgress, [0, 0.8], ["blur(0px)", "blur(12px)"]);
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const [hot, setHot] = useState(false);
+  const mxRaw = useMotionValue(0);
+  const myRaw = useMotionValue(0);
+  const mx = useSpring(mxRaw, { stiffness: 60, damping: 18 });
+  const my = useSpring(myRaw, { stiffness: 60, damping: 18 });
+  useEffect(() => {
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    const move = (e: PointerEvent) => {
+      mxRaw.set((e.clientX / window.innerWidth) * 2 - 1);
+      myRaw.set((e.clientY / window.innerHeight) * 2 - 1);
+    };
+    window.addEventListener("pointermove", move, { passive: true });
+    return () => window.removeEventListener("pointermove", move);
+  }, [mxRaw, myRaw]);
   const ready = useIntroDone();
   const D = -1.1; // delays below were authored relative to a 1.1s offset
 
@@ -67,6 +137,7 @@ export function Hero() {
     <section ref={ref} className="relative h-[100svh] min-h-[560px] overflow-hidden">
       <ShaderCanvas frag={SILK} uniforms={uniforms as React.RefObject<Record<string, number>>} dpr={1.25} />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,#060608_100%)]" />
+      <Hud show={ready} />
 
       <motion.div className="relative z-10 flex h-full flex-col justify-end px-4 pb-6 sm:px-8 sm:pb-8" style={{ y, scale, filter: blur, opacity: fade }}>
         <motion.div
@@ -88,7 +159,7 @@ export function Hero() {
           aria-label="E-Motion"
           data-cursor="shuffle"
         >
-          <span className="flex overflow-hidden pb-[0.06em]">
+          <span className="flex overflow-hidden px-[0.1em] pb-[0.08em] pt-[0.04em] -mx-[0.1em]">
             {Array.from(word).map((c, i) => (
               <motion.span
                 key={i}
@@ -97,7 +168,9 @@ export function Hero() {
                 animate={ready ? { y: "0%", rotate: 0 } : undefined}
                 transition={{ delay: 1.15 + D + i * 0.06, duration: 1.4, ease: EASE.expo }}
               >
-                <FontCycle text={c} active={hot} settle="orbit" interval={80 + i * 7} chance={0.5} />
+                <DepthLetter i={i} n={word.length} mx={mx} my={my}>
+                  <FontCycle text={c} active={hot} settle="orbit" interval={80 + i * 7} chance={0.5} />
+                </DepthLetter>
               </motion.span>
             ))}
           </span>

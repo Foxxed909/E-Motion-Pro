@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { FONTS } from "@/lib/fonts";
 import { Reveal } from "../Type";
 import { EASE } from "@/lib/motion";
+import { SectionLabel } from "../SectionLabel";
 import { FONT_COUNT, PIECE_COUNT, GENRE_COUNT } from "@/lib/counts";
 
 export function TypeShowcase() {
@@ -19,11 +20,11 @@ export function TypeShowcase() {
   }, [auto]);
   const f = FONTS[i];
   return (
-    <section className="relative overflow-hidden border-t border-line px-4 py-[16vh] sm:px-8">
+    <section className="relative overflow-hidden border-t border-line px-4 py-[14vh] sm:px-8">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr]">
         <div>
-          <div className="mb-6 flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.3em] text-mute sm:text-xs">
-            <span className="h-px w-10 bg-mute" /> Original typefaces
+          <div className="mb-6">
+            <SectionLabel n={5}>Type tester</SectionLabel>
           </div>
           <Reveal as="h2" text={`${FONT_COUNT} fonts. All new. Drawn by code.`} className="block text-[11vw] font-medium leading-[0.9] tracking-[-0.04em] text-ink sm:text-[6.5vw] lg:text-[4.8vw]" />
           <p className="mt-6 max-w-[48ch] text-mute">

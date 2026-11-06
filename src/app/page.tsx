@@ -5,6 +5,7 @@ import { Manifesto } from "@/components/landing/Manifesto";
 import { Featured } from "@/components/landing/Featured";
 import { GenreIndex } from "@/components/landing/GenreIndex";
 import { TypeShowcase } from "@/components/landing/TypeShowcase";
+import { Engine } from "@/components/landing/Engine";
 import { Stats } from "@/components/landing/Stats";
 import { Footer } from "@/components/Footer";
 
@@ -17,6 +18,7 @@ export default function Home() {
       <Manifesto />
       <Featured />
       <GenreIndex />
+      <Engine />
       <TypeShowcase />
       <Stats />
       <Footer />

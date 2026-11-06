@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useRef } from "react";
+import { SectionLabel } from "../SectionLabel";
 
 type Token = { w: string; kind?: "font" | "pill" | "accent"; font?: string };
 
@@ -37,9 +38,9 @@ export function Manifesto() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.8", "end 0.6"] });
   return (
-    <section ref={ref} className="mx-auto max-w-[1400px] px-4 py-[22vh] sm:px-8">
-      <div className="mb-10 flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.3em] text-mute sm:text-xs">
-        <span className="h-px w-10 bg-mute" /> Manifesto
+    <section ref={ref} className="relative mx-auto max-w-[1400px] px-4 pb-[12vh] pt-[18vh] sm:px-8">
+      <div className="mb-10">
+        <SectionLabel n={1}>Manifesto</SectionLabel>
       </div>
       <p className="text-[8.5vw] font-medium leading-[1.02] tracking-[-0.03em] text-ink sm:text-[5.6vw] lg:text-[4.6vw]">
         {TOKENS.map((t, i) => (

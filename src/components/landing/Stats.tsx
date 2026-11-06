@@ -26,11 +26,11 @@ export function Stats() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-20% 0px" });
   return (
-    <section ref={ref} className="grid grid-cols-2 border-t border-line lg:grid-cols-4">
+    <section ref={ref} className="grid grid-cols-2 bg-acid text-void lg:grid-cols-4">
       {STATS.map((s, i) => (
-        <div key={s.label} className={`flex flex-col justify-between gap-10 p-6 sm:p-8 ${i % 2 === 0 ? "border-r" : ""} ${i < 2 ? "border-b lg:border-b-0" : ""} border-line lg:border-r lg:last:border-r-0`}>
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-mute sm:text-xs">{s.label}</span>
-          <span className={`font-${s.font} text-[18vw] leading-none text-ink lg:text-[9vw]`}>
+        <div key={s.label} className={`flex flex-col justify-between gap-10 p-6 sm:p-8 ${i % 2 === 0 ? "border-r" : ""} ${i < 2 ? "border-b lg:border-b-0" : ""} border-void/15 lg:border-r lg:last:border-r-0`}>
+          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-void/60 sm:text-xs">{s.label}</span>
+          <span className={`font-${s.font} text-[18vw] leading-none text-void lg:text-[9vw]`}>
             <Counter to={s.n} run={inView} />
           </span>
         </div>
