@@ -36,7 +36,7 @@ export function Featured() {
           <div className="w-40 font-mono text-[10px] uppercase tracking-[0.3em] text-mute sm:w-60 sm:text-xs">
             <div className="flex justify-between">
               <span>Scroll →</span>
-              <span>08 pieces</span>
+              <span className="hidden sm:inline">08 pieces</span>
             </div>
             <div className="mt-2 h-px bg-line">
               <motion.div className="h-full bg-acid" style={{ width: bar }} />

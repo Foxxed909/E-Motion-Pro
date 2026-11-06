@@ -55,7 +55,7 @@ export default function ChartMorph() {
           ))}
         </div>
       </div>
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full overflow-visible">
+      <svg viewBox={`0 0 ${W} ${H}`} className="max-h-[62cqh] w-full overflow-visible">
         {[0.25, 0.5, 0.75].map((g) => (
           <line key={g} x1={pad} x2={W - pad} y1={20 + (H - 40) * g} y2={20 + (H - 40) * g} stroke="rgba(255,255,255,.06)" />
         ))}

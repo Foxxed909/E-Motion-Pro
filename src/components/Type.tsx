@@ -5,13 +5,15 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FONTS } from "@/lib/fonts";
 import { EASE } from "@/lib/motion";
 
+const ALL_SLUGS = FONTS.map((f) => f.slug);
+
 /** Each character independently hops between the 25 E-Motion Pro typefaces. */
 export function FontCycle({
   text,
   className,
   interval = 140,
   chance = 0.18,
-  fonts = FONTS.map((f) => f.slug),
+  fonts = ALL_SLUGS,
   active = true,
   settle,
 }: {

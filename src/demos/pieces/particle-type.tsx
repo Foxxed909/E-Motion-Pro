@@ -4,10 +4,10 @@ import { useRef } from "react";
 import { useCanvas } from "../shared/useCanvas";
 
 const WORDS = [
-  { text: "EMOTION", font: "EMP Orbit" },
+  { text: "EMOTION", font: "EMP Monolith" },
   { text: "PIXELS", font: "EMP Bubblegum" },
-  { text: "FLOW", font: "EMP Monolith" },
-  { text: "PRO", font: "EMP Velocity" },
+  { text: "FLOW", font: "EMP Bulkhead" },
+  { text: "PRO", font: "EMP Bubblegum" },
 ];
 
 type P = { x: number; y: number; vx: number; vy: number; tx: number; ty: number; c: string; s: number };
@@ -34,14 +34,14 @@ export default function ParticleType({ mini }: { mini?: boolean }) {
     c.fillStyle = "#fff";
     c.fillText(word.text, w / 2, h / 2 + size * 0.05);
     const data = c.getImageData(0, 0, off.width, off.height).data;
-    const gap = Math.max(3, Math.round(Math.sqrt((w * h) / (mini ? 1800 : 5200))));
+    const gap = Math.max(3, Math.round(Math.sqrt((w * h) / (mini ? 2200 : 4200))));
     const pts: [number, number][] = [];
     for (let y = 0; y < off.height; y += gap)
       for (let x = 0; x < off.width; x += gap) if (data[(y * off.width + x) * 4 + 3] > 128) pts.push([x, y]);
     const ps = st.current.ps;
     const pal = ["#d4ff3a", "#f3efe7", "#ff5ca8", "#7a5cff", "#33e1ff"];
     while (ps.length < pts.length)
-      ps.push({ x: Math.random() * w, y: Math.random() * h, vx: 0, vy: 0, tx: 0, ty: 0, c: pal[ps.length % pal.length], s: 1 + Math.random() * 1.6 });
+      ps.push({ x: Math.random() * w, y: Math.random() * h, vx: 0, vy: 0, tx: 0, ty: 0, c: pal[ps.length % pal.length], s: 1.6 + Math.random() * 1.8 });
     ps.length = Math.max(pts.length, 1);
     pts.sort(() => Math.random() - 0.5);
     ps.forEach((p, i) => {
@@ -69,7 +69,7 @@ export default function ParticleType({ mini }: { mini?: boolean }) {
           sample(w, h, s.word);
         }
       }
-      ctx.fillStyle = "rgba(5,5,7,0.35)";
+      ctx.fillStyle = "rgba(5,5,7,0.5)";
       ctx.fillRect(0, 0, w, h);
       let px = pointer.x, py = pointer.y, on = pointer.active;
       if (mini) {

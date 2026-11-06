@@ -22,12 +22,15 @@ uniform vec2 u_res; uniform float u_time; uniform vec2 u_mouse; uniform float u_
 `;
 
 export function ShaderCanvas({ frag, className, dpr = 1.5, uniforms, speed = 1 }: Props) {
-  const ref = useRef<HTMLCanvasElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const canvas = ref.current!;
+    // A fresh canvas per effect run, so releasing the context on cleanup is always safe.
+    const canvas = document.createElement("canvas");
+    canvas.style.cssText = "position:absolute;inset:0;width:100%;height:100%;display:block";
+    ref.current!.appendChild(canvas);
     const gl = canvas.getContext("webgl", { antialias: false, premultipliedAlpha: false, alpha: true });
-    if (!gl) return;
+    if (!gl) return () => canvas.remove();
 
     const compile = (type: number, src: string) => {
       const s = gl.createShader(type)!;
@@ -118,10 +121,11 @@ export function ShaderCanvas({ frag, className, dpr = 1.5, uniforms, speed = 1 }
       ro.disconnect();
       io.disconnect();
       gl.getExtension("WEBGL_lose_context")?.loseContext();
+      canvas.remove();
     };
   }, [frag, dpr, uniforms, speed]);
 
-  return <canvas ref={ref} className={className ?? "absolute inset-0 h-full w-full"} />;
+  return <div ref={ref} className={className ?? "absolute inset-0 h-full w-full"} />;
 }
 
 /** Shared GLSL helpers: hash, value noise, fbm, palette. */

@@ -25,8 +25,10 @@ void main(){
   }
   float band = sin(q.x*2.1 + q.y*1.3 + t*2.)*.5 + .5;
   float fine = sin((q.x + q.y)*8. + t*3.)*.5 + .5;
-  vec3 col = palette(band*.55 + length(q)*.06 + t*.08, vec3(.55,.45,.55), vec3(.45,.4,.45), vec3(1.,1.,1.), vec3(.75,.5,.25));
-  col *= pow(band, 3.2)*1.5 + .03;
+  float k = fract(band*.5 + length(q)*.07 + t*.06)*4.;
+  vec3 c0 = vec3(.48,.36,1.), c1 = vec3(1.,.36,.66), c2 = vec3(1.,.62,.26), c3 = vec3(.2,.88,1.);
+  vec3 col = k < 1. ? mix(c0,c1,k) : k < 2. ? mix(c1,c2,k-1.) : k < 3. ? mix(c2,c3,k-2.) : mix(c3,c0,k-3.);
+  col *= pow(band, 3.4)*1.25 + .02;
   col += vec3(1.,.95,.9)*pow(fine*band, 22.)*.35;
   col *= smoothstep(1.55, .05, length(p*vec2(.62, 1.)));
   col *= 1. - u_scroll*.7;
@@ -79,7 +81,7 @@ export function Hero() {
         </motion.div>
 
         <h1
-          className="-ml-[0.04em] select-none text-[17.5vw] leading-[0.82] tracking-[-0.01em] text-ink"
+          className="-ml-[0.04em] select-none text-[16.2vw] sm:text-[17.5vw] leading-[0.82] tracking-[-0.01em] text-ink"
           onPointerEnter={() => setHot(true)}
           onPointerLeave={() => setHot(false)}
           aria-label="E-Motion"

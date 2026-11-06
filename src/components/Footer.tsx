@@ -39,7 +39,7 @@ export function Footer() {
           Back to top ↑
         </button>
       </div>
-      <div className="mt-[8vh] select-none whitespace-nowrap text-[18.5vw] uppercase leading-[0.8] text-ink" aria-label="Let's move">
+      <div className="mt-[8vh] select-none whitespace-nowrap text-[15.2vw] uppercase leading-[0.8] text-ink" aria-label="Let's move">
         {Array.from("LET'S MOVE").map((c, i) => (
           <HoverLetter key={i} c={c} />
         ))}

@@ -26,7 +26,7 @@ export function Preloader() {
     document.documentElement.style.overflow = "hidden";
     let v = 0;
     const id = setInterval(() => {
-      v = Math.min(100, v + Math.random() * 9 + 2);
+      v = Math.min(100, v + Math.random() * 5 + 1.5);
       setN(Math.floor(v));
       if (v >= 100) {
         clearInterval(id);

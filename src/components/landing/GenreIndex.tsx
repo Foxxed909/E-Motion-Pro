@@ -37,7 +37,15 @@ export function GenreIndex() {
           const count = demosInGenre(g.id).length;
           const on = active === i;
           return (
-            <li key={g.id} onPointerEnter={() => setActive(i)} className="border-t border-line last:border-b">
+            <li
+              key={g.id}
+              onPointerEnter={(e) => {
+                x.jump(e.clientX);
+                y.jump(e.clientY);
+                sx.jump(e.clientX);
+                sy.jump(e.clientY);
+                setActive(i);
+              }} className="border-t border-line last:border-b">
               <Link href={`/gallery?genre=${g.id}`} className="group relative flex items-center justify-between gap-4 overflow-hidden py-4 sm:py-5" data-cursor="open">
                 <motion.span
                   className="absolute inset-0 origin-bottom bg-ink"

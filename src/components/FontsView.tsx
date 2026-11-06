@@ -90,7 +90,7 @@ export function FontsView() {
         </div>
       </div>
 
-      <div className="sticky top-16 z-20 -mx-4 mt-12 border-y border-line bg-void/80 px-4 py-3 backdrop-blur-xl sm:top-20 sm:-mx-8 sm:px-8">
+      <div className="sticky top-0 z-20 -mx-4 border-b border-line bg-void/85 px-4 pb-3 pt-20 backdrop-blur-xl sm:-mx-8 sm:px-8 sm:pt-24">
         <div className="flex flex-wrap items-center gap-4">
           <input
             value={text}
