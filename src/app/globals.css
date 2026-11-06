@@ -109,6 +109,24 @@ body {
   scrollbar-width: none;
 }
 
+/* Phones: drop the animated full-screen grain (costly to composite), and make
+   the tiny wide-tracked mono labels readable. */
+@media (max-width: 767px) {
+  .grain {
+    display: none;
+  }
+  .text-\[10px\] {
+    font-size: 11px;
+  }
+  .tracking-\[0\.3em\],
+  .tracking-\[0\.25em\] {
+    letter-spacing: 0.18em;
+  }
+  .tracking-\[0\.4em\] {
+    letter-spacing: 0.24em;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

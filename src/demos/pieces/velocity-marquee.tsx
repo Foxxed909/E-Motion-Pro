@@ -21,7 +21,7 @@ export default function VelocityMarquee({ mini }: { mini?: boolean }) {
       const v = (e.clientX - lastX) / Math.max(1, now - lastT);
       lastX = e.clientX;
       lastT = now;
-      vel += Math.max(-3, Math.min(3, v)) * 2.5;
+      vel += Math.max(-3, Math.min(3, v)) * 1.2;
     };
     const el = root.current!;
     if (!mini) el.addEventListener("pointermove", onMove);
@@ -31,15 +31,15 @@ export default function VelocityMarquee({ mini }: { mini?: boolean }) {
       id = requestAnimationFrame(tick);
       const dt = Math.min(0.05, (now - prev) / 1000);
       prev = now;
-      if (mini) vel = Math.sin(now / 900) * 4;
+      if (mini) vel = Math.sin(now / 1400) * 1.5;
       vel *= 0.94;
       tracks.current.forEach((t, i) => {
         if (!t) return;
         const half = t.scrollWidth / 2;
-        pos[i] -= ROWS[i].dir * (60 + Math.abs(vel) * 220) * dt * (vel < 0 ? -1 : 1) * (i === 1 ? 1.2 : 1);
+        pos[i] -= ROWS[i].dir * (40 + Math.abs(vel) * 90) * dt * (vel < 0 ? -1 : 1) * (i === 1 ? 1.2 : 1);
         if (pos[i] <= -half) pos[i] += half;
         if (pos[i] > 0) pos[i] -= half;
-        t.style.transform = `translate3d(${pos[i]}px,0,0) skewX(${-vel * 4 * ROWS[i].dir}deg)`;
+        t.style.transform = `translate3d(${pos[i]}px,0,0) skewX(${-vel * 2 * ROWS[i].dir}deg)`;
       });
     };
     id = requestAnimationFrame(tick);

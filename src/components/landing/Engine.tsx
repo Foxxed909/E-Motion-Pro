@@ -44,7 +44,7 @@ export function Engine() {
   const f = FONTS[font];
 
   return (
-    <section ref={ref} className="relative h-[340vh] border-t border-line">
+    <section ref={ref} className="relative h-[230vh] border-t border-line md:h-[340vh]">
       <div className="sticky top-0 grid h-[100svh] items-center gap-8 overflow-hidden px-4 pt-16 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="relative z-10">
           <SectionLabel n={4}>The font engine</SectionLabel>

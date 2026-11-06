@@ -114,10 +114,22 @@ export function Hero() {
   const blur = useTransform(scrollYProgress, [0, 0.8], ["blur(0px)", "blur(12px)"]);
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const [hot, setHot] = useState(false);
+  const ready = useIntroDone();
   const mxRaw = useMotionValue(0);
   const myRaw = useMotionValue(0);
   const mx = useSpring(mxRaw, { stiffness: 60, damping: 18 });
   const my = useSpring(myRaw, { stiffness: 60, damping: 18 });
+  useEffect(() => {
+    if (!ready || window.matchMedia("(pointer: fine)").matches) return;
+    // Touch screens have no hover: play the font shuffle once after the intro.
+    const a = setTimeout(() => setHot(true), 1400);
+    const b = setTimeout(() => setHot(false), 3200);
+    return () => {
+      clearTimeout(a);
+      clearTimeout(b);
+    };
+  }, [ready]);
+
   useEffect(() => {
     if (!window.matchMedia("(pointer: fine)").matches) return;
     const move = (e: PointerEvent) => {
@@ -127,7 +139,6 @@ export function Hero() {
     window.addEventListener("pointermove", move, { passive: true });
     return () => window.removeEventListener("pointermove", move);
   }, [mxRaw, myRaw]);
-  const ready = useIntroDone();
   const D = -1.1; // delays below were authored relative to a 1.1s offset
 
   useEffect(() => scrollYProgress.on("change", (v) => (uniforms.current.u_scroll = v)), [scrollYProgress]);

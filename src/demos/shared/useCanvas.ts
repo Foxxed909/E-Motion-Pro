@@ -32,7 +32,7 @@ export function useCanvas(
     const pointer = { x: -9999, y: -9999, active: false, down: false };
     let w = 0, h = 0, dpr = 1;
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
+      dpr = Math.min(window.devicePixelRatio || 1, window.matchMedia("(pointer: coarse)").matches ? Math.min(maxDpr, 1.5) : maxDpr);
       w = canvas.clientWidth;
       h = canvas.clientHeight;
       canvas.width = Math.max(1, Math.floor(w * dpr));

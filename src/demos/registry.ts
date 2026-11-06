@@ -44,6 +44,8 @@ export type Demo = {
   tone: string;
   /** Interaction hint shown on the detail page. */
   hint?: string;
+  /** Pieces that capture scroll or drag. On touch screens they stay inert until tapped. */
+  gate?: "scroll" | "drag";
 };
 
 export const DEMOS: Demo[] = [
@@ -68,20 +70,20 @@ export const DEMOS: Demo[] = [
   { slug: "liquid-buttons", title: "Liquid Buttons", genre: "micro", blurb: "Magnetic pills with fills that pour in from the pointer's entry point.", tags: ["buttons", "magnetic"], tone: "#0d0d0d", hint: "Hover and press" },
   { slug: "morph-toggles", title: "Morph Toggles", genre: "micro", blurb: "Day/night switch, heart burst and self-drawing checkbox.", tags: ["svg", "spring"], tone: "#1a1530", hint: "Tap everything" },
   { slug: "submit-flow", title: "Submit Flow", genre: "micro", blurb: "A button that becomes a loader, then a triumphant check.", tags: ["state", "morph"], tone: "#0e1512", hint: "Press send" },
-  { slug: "elastic-slider", title: "Elastic Slider", genre: "micro", blurb: "Rubber-band overscroll and a rolling odometer readout.", tags: ["drag", "odometer"], tone: "#101014", hint: "Drag past the edges" },
+  { slug: "elastic-slider", title: "Elastic Slider", gate: "drag", genre: "micro", blurb: "Rubber-band overscroll and a rolling odometer readout.", tags: ["drag", "odometer"], tone: "#101014", hint: "Drag past the edges" },
 
   // App UI
   { slug: "dynamic-pill", title: "Dynamic Pill", genre: "app", blurb: "A system island morphing between call, music and timer states.", tags: ["morph", "layout"], tone: "#e9e5dd" },
-  { slug: "card-stack", title: "Card Stack", genre: "app", blurb: "Swipe-to-decide deck with rotation, velocity and spring return.", tags: ["drag", "gesture"], tone: "#141018", hint: "Fling a card" },
-  { slug: "bottom-sheet", title: "Bottom Sheet", genre: "app", blurb: "Native-feeling sheet with detents and a receding backdrop.", tags: ["drag", "detents"], tone: "#0a0a0c", hint: "Drag the sheet" },
+  { slug: "card-stack", title: "Card Stack", gate: "drag", genre: "app", blurb: "Swipe-to-decide deck with rotation, velocity and spring return.", tags: ["drag", "gesture"], tone: "#141018", hint: "Fling a card" },
+  { slug: "bottom-sheet", title: "Bottom Sheet", gate: "drag", genre: "app", blurb: "Native-feeling sheet with detents and a receding backdrop.", tags: ["drag", "detents"], tone: "#0a0a0c", hint: "Drag the sheet" },
   { slug: "tab-morph", title: "Tab Morph", genre: "app", blurb: "A gooey indicator that flows between tabs.", tags: ["layoutId", "nav"], tone: "#ff5ca8" },
   { slug: "notification-stack", title: "Notification Stack", genre: "app", blurb: "Collapsed notifications fan open into a list.", tags: ["stack", "spring"], tone: "#202230", hint: "Hover the stack" },
 
   // Scroll
-  { slug: "zoom-through", title: "Zoom Through", genre: "scroll", blurb: "Scroll flies the camera straight through a letterform into the next scene.", tags: ["svg mask", "scale"], tone: "#0b0b0b", hint: "Scroll inside" },
-  { slug: "parallax-peaks", title: "Parallax Peaks", genre: "scroll", blurb: "Layered mountain ranges at different depths, scrubbed by scroll.", tags: ["parallax", "scroll"], tone: "#140c22", hint: "Scroll inside" },
-  { slug: "stacking-cards", title: "Stacking Cards", genre: "scroll", blurb: "Sticky cards that stack and recede as new ones arrive.", tags: ["sticky", "scale"], tone: "#0c0c0c", hint: "Scroll inside" },
-  { slug: "word-light", title: "Word Light", genre: "scroll", blurb: "A manifesto that illuminates word by word as you read.", tags: ["scrub", "opacity"], tone: "#0b0b0b", hint: "Scroll inside" },
+  { slug: "zoom-through", title: "Zoom Through", gate: "scroll", genre: "scroll", blurb: "Scroll flies the camera straight through a letterform into the next scene.", tags: ["svg mask", "scale"], tone: "#0b0b0b", hint: "Scroll inside" },
+  { slug: "parallax-peaks", title: "Parallax Peaks", gate: "scroll", genre: "scroll", blurb: "Layered mountain ranges at different depths, scrubbed by scroll.", tags: ["parallax", "scroll"], tone: "#140c22", hint: "Scroll inside" },
+  { slug: "stacking-cards", title: "Stacking Cards", gate: "scroll", genre: "scroll", blurb: "Sticky cards that stack and recede as new ones arrive.", tags: ["sticky", "scale"], tone: "#0c0c0c", hint: "Scroll inside" },
+  { slug: "word-light", title: "Word Light", gate: "scroll", genre: "scroll", blurb: "A manifesto that illuminates word by word as you read.", tags: ["scrub", "opacity"], tone: "#0b0b0b", hint: "Scroll inside" },
 
   // Shaders
   { slug: "lava-lamp", title: "Lava Lamp", genre: "shader", blurb: "Smooth-min metaballs of glowing wax that rise, merge and split.", tags: ["glsl", "sdf"], tone: "#000", hint: "Your pointer is a blob" },
@@ -98,9 +100,9 @@ export const DEMOS: Demo[] = [
   { slug: "constellation-net", title: "Constellation Net", genre: "particles", blurb: "Drifting nodes linking up when they get close.", tags: ["canvas", "graph"], tone: "#03040a", hint: "Your pointer is a star" },
 
   // Depth
-  { slug: "infinite-canvas", title: "Infinite Canvas", genre: "depth", blurb: "A boundless, draggable wall of type specimens with inertia.", tags: ["drag", "wrap"], tone: "#060608", hint: "Drag in any direction" },
+  { slug: "infinite-canvas", title: "Infinite Canvas", gate: "drag", genre: "depth", blurb: "A boundless, draggable wall of type specimens with inertia.", tags: ["drag", "wrap"], tone: "#060608", hint: "Drag in any direction" },
   { slug: "holo-card", title: "Holo Card", genre: "depth", blurb: "A foil trading card with tilt, glare and iridescent shift.", tags: ["3d", "tilt"], tone: "#0d0b14", hint: "Tilt the card" },
-  { slug: "orbit-carousel", title: "Orbit Carousel", genre: "depth", blurb: "A 3D ring of panels you can spin with a drag.", tags: ["3d", "drag"], tone: "#0a0a0a", hint: "Drag to spin" },
+  { slug: "orbit-carousel", title: "Orbit Carousel", gate: "drag", genre: "depth", blurb: "A 3D ring of panels you can spin with a drag.", tags: ["3d", "drag"], tone: "#0a0a0a", hint: "Drag to spin" },
   { slug: "exploded-ui", title: "Exploded UI", genre: "depth", blurb: "An interface separated into isometric layers.", tags: ["isometric", "layers"], tone: "#ecebe6" },
 
   // Loaders

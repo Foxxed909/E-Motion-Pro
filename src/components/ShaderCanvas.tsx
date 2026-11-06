@@ -68,7 +68,8 @@ export function ShaderCanvas({ frag, className, dpr = 1.5, uniforms, speed = 1 }
     window.addEventListener("pointermove", onMove, { passive: true });
 
     const resize = () => {
-      const ratio = Math.min(window.devicePixelRatio || 1, dpr);
+      const coarse = window.matchMedia("(pointer: coarse)").matches;
+      const ratio = Math.min(window.devicePixelRatio || 1, coarse ? Math.min(dpr, 1) : dpr);
       const w = Math.max(1, Math.floor(canvas.clientWidth * ratio));
       const h = Math.max(1, Math.floor(canvas.clientHeight * ratio));
       if (canvas.width !== w || canvas.height !== h) {

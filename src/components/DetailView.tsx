@@ -44,15 +44,15 @@ export function DetailView({ demo, source }: { demo: Demo; source: PieceSource |
             <Reveal text={demo.title} by="char" stagger={0.03} />
           </h1>
         </div>
-        <div className="flex gap-2">
-          <Magnetic>
-            <button onClick={() => setReplay((r) => r + 1)} className="rounded-full border border-ink/25 px-5 py-3 font-mono text-[10px] uppercase tracking-[0.25em] text-ink transition-colors hover:bg-ink hover:text-void sm:text-xs">
-              ↻ Replay <span className="text-dim">(R)</span>
+        <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto">
+          <Magnetic className="block">
+            <button onClick={() => setReplay((r) => r + 1)} className="w-full whitespace-nowrap rounded-full border border-ink/25 px-5 py-3 font-mono text-[10px] uppercase tracking-[0.25em] text-ink transition-colors hover:bg-ink hover:text-void sm:text-xs">
+              ↻ Replay <span className="hidden text-dim sm:inline">(R)</span>
             </button>
           </Magnetic>
-          <Magnetic>
-            <button onClick={() => stageRef.current?.requestFullscreen?.()} className="rounded-full bg-acid px-5 py-3 font-mono text-[10px] uppercase tracking-[0.25em] text-void sm:text-xs">
-              ⤢ Fullscreen <span className="opacity-50">(F)</span>
+          <Magnetic className="block">
+            <button onClick={() => stageRef.current?.requestFullscreen?.()} className="w-full whitespace-nowrap rounded-full bg-acid px-5 py-3 font-mono text-[10px] uppercase tracking-[0.25em] text-void sm:text-xs">
+              ⤢ Fullscreen <span className="hidden opacity-50 sm:inline">(F)</span>
             </button>
           </Magnetic>
         </div>
@@ -66,11 +66,11 @@ export function DetailView({ demo, source }: { demo: Demo; source: PieceSource |
         transition={{ duration: 1.3, ease: EASE.expo, delay: 0.35 }}
         data-cursor-hide
       >
-        <Stage demo={demo} replayKey={replay} className="h-[72svh] min-h-[420px] w-full" />
+        <Stage demo={demo} replayKey={replay} className="h-[64svh] min-h-[380px] w-full sm:h-[72svh] sm:min-h-[420px]" />
       </motion.div>
 
-      <div className="mt-8 grid gap-8 border-b border-line pb-12 md:grid-cols-[2fr_1fr_1fr]">
-        <p className="max-w-[52ch] text-xl leading-snug text-ink sm:text-2xl">{demo.blurb}</p>
+      <div className="mt-8 grid grid-cols-2 gap-8 border-b border-line pb-12 md:grid-cols-[2fr_1fr_1fr]">
+        <p className="col-span-2 max-w-[52ch] text-xl leading-snug text-ink sm:text-2xl md:col-span-1">{demo.blurb}</p>
         <dl className="space-y-4 font-mono text-[10px] uppercase tracking-[0.25em] sm:text-xs">
           <div>
             <dt className="text-dim">Genre</dt>

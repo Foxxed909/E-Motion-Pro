@@ -26,13 +26,13 @@ function Specimen({ f, text, size, open, toggle }: { f: EmpFont; text: string; s
           <span className="text-dim">{f.genre}</span>
         </span>
         <span className="flex items-center gap-2">
-          <button onClick={toggle} className="rounded-full border border-line px-3 py-1.5 text-mute transition-colors hover:border-ink hover:text-ink" aria-expanded={open}>
+          <button onClick={toggle} className="rounded-full border border-line px-3 py-2.5 text-mute sm:py-1.5 transition-colors hover:border-ink hover:text-ink" aria-expanded={open}>
             {open ? "Hide glyphs" : "Glyphs"}
           </button>
-          <a href={`/fonts/${f.slug}.woff2`} download className="rounded-full border border-line px-3 py-1.5 text-mute transition-colors hover:border-ink hover:text-ink">
+          <a href={`/fonts/${f.slug}.woff2`} download className="rounded-full border border-line px-3 py-2.5 text-mute sm:py-1.5 transition-colors hover:border-ink hover:text-ink">
             .woff2
           </a>
-          <a href={`/fonts/${f.slug}.otf`} download className="rounded-full bg-ink px-3 py-1.5 text-void transition-colors hover:bg-acid">
+          <a href={`/fonts/${f.slug}.otf`} download className="rounded-full bg-ink px-3 py-2.5 text-void sm:py-1.5 transition-colors hover:bg-acid">
             .otf ↓
           </a>
         </span>
@@ -99,7 +99,7 @@ export function FontsView() {
             onChange={(e) => setText(e.target.value.slice(0, 60))}
             placeholder={`Type to preview all ${FONT_COUNT}…`}
             aria-label="Preview text"
-            className="min-w-0 flex-1 rounded-full border border-line bg-transparent px-5 py-2.5 font-mono text-sm text-ink outline-none focus:border-acid"
+            className="min-w-0 basis-full rounded-full border border-line bg-transparent px-5 py-2.5 sm:flex-1 sm:basis-auto font-mono text-sm text-ink outline-none focus:border-acid"
           />
           <label className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-mute">
             Size
@@ -111,7 +111,7 @@ export function FontsView() {
             <button
               key={g ?? "all"}
               onClick={() => setGenre(g)}
-              className={`relative shrink-0 rounded-full px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] ${genre === g ? "text-void" : "text-mute hover:text-ink"}`}
+              className={`relative shrink-0 rounded-full px-3 py-2.5 sm:py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] ${genre === g ? "text-void" : "text-mute hover:text-ink"}`}
             >
               {genre === g && <motion.span layoutId="font-chip" className="absolute inset-0 rounded-full bg-acid" transition={{ type: "spring", stiffness: 400, damping: 32 }} />}
               <span className="relative">{g ?? "All"}</span>

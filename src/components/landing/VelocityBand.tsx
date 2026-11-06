@@ -10,12 +10,12 @@ const wrap = (min: number, max: number, v: number) => {
 };
 
 /** Infinite band whose speed and skew follow page-scroll velocity. */
-function Row({ dir, children, base = 3 }: { dir: 1 | -1; children: React.ReactNode; base?: number }) {
+function Row({ dir, children, base = 1.1 }: { dir: 1 | -1; children: React.ReactNode; base?: number }) {
   const x = useMotionValue(0);
   const { scrollY } = useScroll();
   const vel = useSpring(useVelocity(scrollY), { damping: 50, stiffness: 400 });
-  const factor = useTransform(vel, [-2000, 0, 2000], [-5, 0, 5], { clamp: false });
-  const skew = useTransform(vel, [-3000, 3000], [12, -12]);
+  const factor = useTransform(vel, [-2500, 0, 2500], [-1.5, 0, 1.5]);
+  const skew = useTransform(vel, [-3000, 3000], [5, -5]);
   const tx = useTransform(x, (v) => `${wrap(-50, 0, v)}%`);
   const sign = useRef(dir);
   useAnimationFrame((_, delta) => {
@@ -44,12 +44,15 @@ export function VelocityBand() {
     </span>
   ));
   return (
+    // The band is tilted; the wrapper clips its rotated corners so they can't widen the page on phones.
+    <div className="overflow-hidden py-6">
     <section className="relative -rotate-2 border-y border-line bg-void py-6 text-[9vw] leading-none text-ink sm:text-[6vw]" aria-label="Genres">
       <Row dir={1}>{items}</Row>
       <div className="h-3" />
-      <Row dir={-1} base={2}>
+      <Row dir={-1} base={0.8}>
         <span className="flex text-mute">{items.slice().reverse()}</span>
       </Row>
     </section>
+    </div>
   );
 }

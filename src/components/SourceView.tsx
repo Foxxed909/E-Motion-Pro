@@ -47,7 +47,7 @@ export function SourceView({ src }: { src: PieceSource }) {
         transition={{ duration: 0.8, ease: EASE.expo }}
       >
         <div
-          className="source-code overflow-x-auto bg-[#101010] p-5 font-mono text-[12.5px] leading-relaxed sm:p-6"
+          className="source-code overflow-x-auto bg-[#101010] p-5 font-mono text-[11.5px] leading-relaxed sm:p-6 sm:text-[12.5px]"
           data-lenis-prevent
           dangerouslySetInnerHTML={{ __html: src.html }}
         />

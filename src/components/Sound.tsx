@@ -47,7 +47,7 @@ export function SoundToggle({ className = "" }: { className?: string }) {
   return (
     <button
       onClick={() => sound.toggle()}
-      className={`flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-ink ${className}`}
+      className={`flex min-h-11 min-w-11 items-center justify-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-ink ${className}`}
       aria-pressed={on}
       aria-label={on ? "Turn sound off" : "Turn sound on"}
     >

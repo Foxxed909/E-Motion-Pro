@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { FontCycle, Scramble } from "./Type";
+import { FontCycle } from "./Type";
 import { Magnetic } from "./Magnetic";
 import { SoundToggle } from "./Sound";
 import { PaletteButton } from "./CommandPalette";
@@ -32,7 +32,7 @@ export function Nav() {
         <nav className="flex items-center justify-between px-4 py-4 sm:px-8 sm:py-6">
           <Link
             href="/"
-            className="text-xl tracking-wide text-ink sm:text-2xl"
+            className="whitespace-nowrap text-lg tracking-wide text-ink sm:text-2xl"
             onPointerEnter={() => setHoverLogo(true)}
             onPointerLeave={() => setHoverLogo(false)}
             aria-label="E-Motion Pro home"
@@ -55,7 +55,7 @@ export function Nav() {
                         <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-full bg-ink/15" transition={{ type: "spring", stiffness: 400, damping: 30 }} />
                       )}
                       <span className="relative">
-                        <Scramble text={l.label} trigger={hovered === l.href} />
+                        {l.label}
                       </span>
                       {active && <span className="absolute -bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-ink" />}
                     </Link>
@@ -72,12 +72,12 @@ export function Nav() {
             <SoundToggle />
           </div>
           <div className="relative z-10 flex items-center gap-3 md:hidden">
-            <button onClick={() => setPaletteOpen(true)} className="flex h-10 w-10 items-center justify-center text-ink" aria-label="Search">
+            <button onClick={() => setPaletteOpen(true)} className="flex h-11 w-11 items-center justify-center text-ink" aria-label="Search">
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.6}><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4.5 4.5" strokeLinecap="round" /></svg>
             </button>
             <SoundToggle />
           <button
-            className="relative z-10 flex h-10 w-10 flex-col items-center justify-center gap-1.5"
+            className="relative z-10 flex h-11 w-11 flex-col items-center justify-center gap-1.5"
             onClick={() => setOpen((o) => !o)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
