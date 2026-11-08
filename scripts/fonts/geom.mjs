@@ -257,6 +257,9 @@ export function strokePolyline(pts, opts) {
     const s = cumAll[c.i];
     out.push(...joinShape(c, hAt(s, s / total), join));
   }
+  // A smooth closed loop meets itself with two butt ends; anti-aliasing can show a hairline
+  // there. A disc of the stroke's own half-width at the seam sits inside the band and seals it.
+  if (closed && !corners.some((c) => c.seam)) out.push(circle(pts[0], hAt(0, 0)));
   return out;
 }
 

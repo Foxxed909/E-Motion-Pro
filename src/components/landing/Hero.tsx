@@ -4,6 +4,7 @@ import { motion, useMotionValue, useScroll, useSpring, useTransform, type Motion
 import { useEffect, useRef, useState } from "react";
 import { GLSL_NOISE, ShaderCanvas } from "../ShaderCanvas";
 import { FontCycle } from "../Type";
+import { HeroSkeleton } from "./HeroSkeleton";
 import { Magnetic } from "../Magnetic";
 import { EASE } from "@/lib/motion";
 import { useIntroDone } from "@/lib/intro";
@@ -122,8 +123,8 @@ export function Hero() {
   useEffect(() => {
     if (!ready || window.matchMedia("(pointer: fine)").matches) return;
     // Touch screens have no hover: play the font shuffle once after the intro.
-    const a = setTimeout(() => setHot(true), 1400);
-    const b = setTimeout(() => setHot(false), 3200);
+    const a = setTimeout(() => setHot(true), 2600);
+    const b = setTimeout(() => setHot(false), 4400);
     return () => {
       clearTimeout(a);
       clearTimeout(b);
@@ -144,6 +145,11 @@ export function Hero() {
   useEffect(() => scrollYProgress.on("change", (v) => (uniforms.current.u_scroll = v)), [scrollYProgress]);
 
   const word = "E—MOTION";
+  // Intro timing: each letter's skeleton draws, then the solid glyph resolves on top of it.
+  const STAGGER = 0.1;
+  const DRAW = 1;
+  const h1Ref = useRef<HTMLHeadingElement>(null);
+  const letterRefs = useRef<(HTMLElement | null)[]>([]);
   return (
     <section ref={ref} className="relative h-[100svh] min-h-[560px] overflow-hidden">
       <ShaderCanvas frag={SILK} uniforms={uniforms as React.RefObject<Record<string, number>>} dpr={1.25} />
@@ -164,7 +170,8 @@ export function Hero() {
         </motion.div>
 
         <h1
-          className="-ml-[0.04em] select-none text-[16.2vw] sm:text-[17.5vw] leading-[0.82] tracking-[-0.01em] text-ink"
+          ref={h1Ref}
+          className="relative -ml-[0.04em] select-none text-[16.2vw] sm:text-[17.5vw] leading-[0.82] tracking-[-0.01em] text-ink"
           onPointerEnter={() => setHot(true)}
           onPointerLeave={() => setHot(false)}
           aria-label="E-Motion"
@@ -174,10 +181,13 @@ export function Hero() {
             {Array.from(word).map((c, i) => (
               <motion.span
                 key={i}
+                ref={(n) => {
+                  letterRefs.current[i] = n;
+                }}
                 className="inline-block"
-                initial={{ y: "110%", rotate: 8 }}
-                animate={ready ? { y: "0%", rotate: 0 } : undefined}
-                transition={{ delay: 1.15 + D + i * 0.06, duration: 1.4, ease: EASE.expo }}
+                initial={{ opacity: 0, filter: "blur(10px)" }}
+                animate={ready ? { opacity: 1, filter: "blur(0px)" } : undefined}
+                transition={{ delay: 0.1 + i * STAGGER + DRAW, duration: 0.9, ease: EASE.expo }}
               >
                 <DepthLetter i={i} n={word.length} mx={mx} my={my}>
                   <FontCycle text={c} active={hot} settle="orbit" interval={80 + i * 7} chance={0.5} />
@@ -185,6 +195,7 @@ export function Hero() {
               </motion.span>
             ))}
           </span>
+          <HeroSkeleton host={h1Ref} letters={letterRefs} play={ready} stagger={STAGGER} draw={DRAW} />
         </h1>
 
         <div className="mt-6 grid items-end gap-6 sm:mt-8 md:grid-cols-[1fr_auto_auto]">

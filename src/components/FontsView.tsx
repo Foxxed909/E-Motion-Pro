@@ -32,7 +32,7 @@ function Specimen({ f, text, size, open, toggle }: { f: EmpFont; text: string; s
           <a href={`/fonts/${f.slug}.woff2`} download className="rounded-full border border-line px-3 py-2.5 text-mute sm:py-1.5 transition-colors hover:border-ink hover:text-ink">
             .woff2
           </a>
-          <a href={`/fonts/${f.slug}.otf`} download className="rounded-full bg-ink px-3 py-2.5 text-void sm:py-1.5 transition-colors hover:bg-acid">
+          <a href={`/fonts/${f.slug}.otf`} download className="rounded-full bg-acid px-3 py-2.5 text-void sm:py-1.5 transition-colors hover:bg-ink">
             .otf ↓
           </a>
         </span>

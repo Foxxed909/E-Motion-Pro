@@ -75,7 +75,6 @@ export function Nav() {
             <button onClick={() => setPaletteOpen(true)} className="flex h-11 w-11 items-center justify-center text-ink" aria-label="Search">
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.6}><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4.5 4.5" strokeLinecap="round" /></svg>
             </button>
-            <SoundToggle />
           <button
             className="relative z-10 flex h-11 w-11 flex-col items-center justify-center gap-1.5"
             onClick={() => setOpen((o) => !o)}
@@ -97,6 +96,9 @@ export function Nav() {
             exit={{ clipPath: "circle(0% at 92% 4%)" }}
             transition={{ duration: 0.8, ease: EASE.quart }}
           >
+            <motion.div className="mb-8 border-b border-void/20 pb-4" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.5 } }}>
+              <SoundToggle label dark className="!justify-start" />
+            </motion.div>
             {[{ href: "/", label: "Home" }, ...LINKS].map((l, i) => (
               <motion.div key={l.href} className="overflow-hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ delay: 0.25 + i * 0.07, duration: 0.8, ease: EASE.expo }}>

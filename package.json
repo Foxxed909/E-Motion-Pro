@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "fonts": "node scripts/fonts/build.mjs",
+    "fonts": "node scripts/fonts/build.mjs && node scripts/fonts/skeleton-json.mjs",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

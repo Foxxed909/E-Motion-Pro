@@ -2,15 +2,19 @@
 @import "./fonts.css";
 
 @theme {
-  --color-void: #060608;
-  --color-night: #0c0c10;
-  --color-coal: #14141a;
-  --color-smoke: #1e1e26;
+  /* Site chrome — two surfaces on one background, one accent.
+     Text contrast on the background: ink 17:1, mute 7.5:1, dim 5:1 (all WCAG AA). */
+  --color-void: #09090c; /* page background */
+  --color-night: #121217; /* surface 1: cards, panels, bars */
+  --color-coal: #121217; /* alias of surface 1 */
+  --color-smoke: #1b1b22; /* surface 2: hover, pills, inputs */
   --color-line: rgb(255 255 255 / 0.08);
-  --color-ink: #f3efe7;
-  --color-mute: #8d8a93;
-  --color-dim: #55535c;
-  --color-acid: #d4ff3a;
+  --color-ink: #f3efe7; /* text */
+  --color-mute: #a19ea8; /* secondary text */
+  --color-dim: #858290; /* tertiary text: metadata, indices — never lower */
+  --color-acid: #d4ff3a; /* THE accent: primary CTA, active state, focus, progress */
+
+  /* Artwork colours: used inside motion pieces only, never in site chrome. */
   --color-flare: #ff4f2e;
   --color-iris: #7a5cff;
   --color-glow: #ff5ca8;
@@ -26,7 +30,6 @@
 
 :root {
   color-scheme: dark;
-  --grad-iris: linear-gradient(110deg, #7a5cff 0%, #ff5ca8 38%, #ff9f43 68%, #d4ff3a 100%);
 }
 
 html {
@@ -66,11 +69,14 @@ body {
   }
 }
 
-.text-iris {
-  background: var(--grad-iris);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* One consistent, visible keyboard focus ring (the custom cursor hides the pointer). */
+:focus-visible {
+  outline: 2px solid var(--color-acid);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
 }
 
 .grain {
@@ -115,8 +121,9 @@ body {
   .grain {
     display: none;
   }
-  .text-\[10px\] {
-    font-size: 11px;
+  .text-\[10px\],
+  .text-\[11px\] {
+    font-size: 12px;
   }
   .tracking-\[0\.3em\],
   .tracking-\[0\.25em\] {
@@ -152,5 +159,5 @@ body {
   width: 2.5em;
   margin-right: 1.25em;
   text-align: right;
-  color: #3a3a40;
+  color: var(--color-dim);
 }

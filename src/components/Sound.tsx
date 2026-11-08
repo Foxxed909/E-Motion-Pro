@@ -42,12 +42,12 @@ export function SoundFX() {
 }
 
 /** Equaliser-style toggle for the nav. */
-export function SoundToggle({ className = "" }: { className?: string }) {
+export function SoundToggle({ className = "", label = false, dark = false }: { className?: string; label?: boolean; dark?: boolean }) {
   const on = useSoundOn();
   return (
     <button
       onClick={() => sound.toggle()}
-      className={`flex min-h-11 min-w-11 items-center justify-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-ink ${className}`}
+      className={`flex min-h-11 min-w-11 items-center justify-center gap-2 font-mono text-xs uppercase tracking-[0.2em] ${dark ? "text-void" : "text-ink"} ${className}`}
       aria-pressed={on}
       aria-label={on ? "Turn sound off" : "Turn sound on"}
     >
@@ -55,13 +55,13 @@ export function SoundToggle({ className = "" }: { className?: string }) {
         {[0, 1, 2, 3].map((i) => (
           <motion.span
             key={i}
-            className="w-[2px] rounded-full bg-ink"
+            className={`w-[2px] rounded-full ${dark ? "bg-void" : "bg-ink"}`}
             animate={on ? { height: ["30%", "100%", "50%", "85%", "30%"] } : { height: "20%" }}
             transition={on ? { duration: 0.9 + i * 0.15, repeat: Infinity, ease: "easeInOut", delay: i * 0.1 } : { duration: 0.3 }}
           />
         ))}
       </span>
-      <span className="hidden lg:inline">Sound {on ? "on" : "off"}</span>
+      <span className={label ? "inline" : "hidden lg:inline"}>Sound {on ? "on" : "off"}</span>
     </button>
   );
 }

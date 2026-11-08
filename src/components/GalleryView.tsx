@@ -32,7 +32,7 @@ export function GalleryView() {
         </div>
       </div>
 
-      <div className="no-scrollbar sticky top-16 z-20 -mx-4 mt-10 overflow-x-auto px-4 py-3 sm:top-20 sm:-mx-8 sm:px-8">
+      <div className="no-scrollbar sticky top-16 z-20 -mx-4 mt-10 overflow-x-auto px-4 py-3 [mask-image:linear-gradient(90deg,#000_85%,transparent)] sm:top-20 sm:-mx-8 sm:px-8 md:[mask-image:none]">
         <div className="flex w-max gap-1 rounded-full bg-night/80 p-1 ring-1 ring-line backdrop-blur-xl">
           {[{ id: null as GenreId | null, name: "All" }, ...GENRES].map((x) => {
             const on = active === x.id;

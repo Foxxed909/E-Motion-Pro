@@ -16,9 +16,8 @@ const TOKENS: Token[] = [
 
 function Word({ t, i, n, p }: { t: Token; i: number; n: number; p: MotionValue<number> }) {
   const a = i / n;
-  const o = useTransform(p, [a, a + 1.5 / n], [0.1, 1]);
-  const blur = useTransform(p, [a, a + 1.5 / n], ["blur(6px)", "blur(0px)"]);
-  if (t.kind === "pill")
+  const o = useTransform(p, [a, a + 1.5 / n], [0.16, 1]);
+    if (t.kind === "pill")
     return (
       <motion.span style={{ opacity: o }} className="relative mx-[0.15em] inline-flex h-[0.85em] w-[1.8em] translate-y-[0.08em] items-center rounded-full bg-acid align-baseline">
         <motion.span className="absolute h-[0.65em] w-[0.65em] rounded-full bg-void" animate={{ left: ["8%", "56%", "8%"] }} transition={{ duration: 2.4, repeat: Infinity, ease: [0.76, 0, 0.24, 1] }} />
@@ -26,8 +25,8 @@ function Word({ t, i, n, p }: { t: Token; i: number; n: number; p: MotionValue<n
     );
   return (
     <motion.span
-      style={{ opacity: o, filter: blur }}
-      className={`mr-[0.25em] inline-block ${t.kind === "font" ? `font-${t.font} text-[1.08em] text-ink` : ""} ${t.kind === "accent" ? "text-iris" : ""}`}
+      style={{ opacity: o }}
+      className={`mr-[0.25em] inline-block ${t.kind === "font" ? `font-${t.font} text-[1.08em] text-ink` : ""} ${t.kind === "accent" ? "text-acid" : ""}`}
     >
       {t.w}
     </motion.span>

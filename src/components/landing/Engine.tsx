@@ -51,7 +51,7 @@ export function Engine() {
           <h2 className="mt-5 text-[11vw] font-medium leading-[0.9] tracking-[-0.04em] text-ink sm:text-[6vw] lg:text-[4.4vw]">
             One skeleton.
             <br />
-            <span className="text-iris">{FONTS.length} voices.</span>
+            <span className="text-acid">{FONTS.length} voices.</span>
           </h2>
           <ol className="mt-8 hidden space-y-5 sm:block">
             {STEPS.map((s, i) => (
