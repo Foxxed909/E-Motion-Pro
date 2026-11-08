@@ -46,7 +46,7 @@ export default function ParallaxPeaks({ mini }: { mini?: boolean }) {
   const titleO = useTransform(p, [0, 0.5], [1, 0]);
   const outro = useTransform(p, [0.6, 1], [0, 1]);
   return (
-    <div ref={ref} className="no-scrollbar absolute inset-0 overflow-y-auto" data-lenis-prevent>
+    <div ref={ref} className="no-scrollbar absolute inset-0 overflow-y-auto">
       <div className="h-[400%]">
         <motion.div className="sticky top-0 h-[25%] overflow-hidden" style={{ background: sky }}>
           <motion.div className="absolute left-1/2 h-[30cqh] w-[30cqh] -translate-x-1/2 rounded-full" style={{ top: sunY, background: "radial-gradient(circle,#ffe2a8,#ff7a59 60%,transparent 70%)" }} />

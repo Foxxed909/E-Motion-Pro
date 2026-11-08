@@ -40,17 +40,6 @@ html {
   text-rendering: optimizeLegibility;
 }
 
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
 body {
   background: var(--color-void);
   overflow-x: clip;
@@ -59,14 +48,6 @@ body {
 ::selection {
   background: var(--color-acid);
   color: var(--color-void);
-}
-
-/* Hide native cursor only on fine pointers where our custom cursor runs */
-@media (pointer: fine) {
-  html.has-cursor,
-  html.has-cursor * {
-    cursor: none !important;
-  }
 }
 
 /* One consistent, visible keyboard focus ring (the custom cursor hides the pointer). */
@@ -79,22 +60,15 @@ body {
   outline: none;
 }
 
+/* Film grain: a static, viewport-sized tile. (It used to be a 2×-viewport layer animated
+   every frame, which forced constant compositing on large displays.) */
 .grain {
   pointer-events: none;
   position: fixed;
-  inset: -50%;
+  inset: 0;
   z-index: 90;
-  opacity: 0.07;
+  opacity: 0.05;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  animation: grain 1s steps(6) infinite;
-}
-@keyframes grain {
-  0% { transform: translate(0, 0); }
-  20% { transform: translate(-6%, 4%); }
-  40% { transform: translate(5%, -7%); }
-  60% { transform: translate(-3%, 8%); }
-  80% { transform: translate(7%, 2%); }
-  100% { transform: translate(0, 0); }
 }
 
 .marquee-track {

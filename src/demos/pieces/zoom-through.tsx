@@ -14,7 +14,7 @@ export default function ZoomThrough({ mini }: { mini?: boolean }) {
   const innerO = useTransform(p, [0.45, 0.8], [0, 1]);
   const hint = useTransform(p, [0, 0.1], [1, 0]);
   return (
-    <div ref={ref} className="no-scrollbar absolute inset-0 overflow-y-auto" data-lenis-prevent>
+    <div ref={ref} className="no-scrollbar absolute inset-0 overflow-y-auto">
       <div className="h-[400%]">
         <div className="sticky top-0 h-[25%] overflow-hidden">
           <div className="absolute inset-0" style={{ background: "radial-gradient(120% 90% at 30% 20%, #ff5ca8, #7a5cff 45%, #120d33 80%)" }}>

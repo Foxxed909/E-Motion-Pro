@@ -88,7 +88,7 @@ export function GenreIndex() {
               exit={{ clipPath: "inset(50% 50% 50% 50% round 12px)", opacity: 0 }}
               transition={{ duration: 0.55, ease: EASE.expo }}
             >
-              <Stage demo={demosInGenre(GENRES[active].id)[0]} mini className="h-full w-full" />
+              <Stage demo={demosInGenre(GENRES[active].id)[0]} mini live className="h-full w-full" />
             </motion.div>
           )}
         </AnimatePresence>

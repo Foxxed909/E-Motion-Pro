@@ -59,7 +59,7 @@ export function GalleryView() {
             >
               <Link href={`/motion/${d.slug}`} className="group block" data-cursor="view">
                 <div className="relative overflow-hidden rounded-2xl ring-1 ring-line transition-[box-shadow] duration-500 group-hover:shadow-[0_30px_80px_-30px_rgba(212,255,58,.25)]">
-                  <Stage demo={d} mini className="aspect-[4/3] w-full transition-transform duration-[900ms] ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.04]" />
+                  <Stage demo={d} mini className="aspect-[4/3] w-full" />
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden translate-y-full md:block bg-gradient-to-t from-black/80 to-transparent p-4 pt-10 transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-y-0">
                     <p className="text-sm leading-snug text-white/90">{d.blurb}</p>
                   </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FontCycle } from "./Type";
 import { Magnetic } from "./Magnetic";
-import { useLenis } from "./SmoothScroll";
+import { scrollToTop } from "./SmoothScroll";
 
 function HoverLetter({ c }: { c: string }) {
   const [on, setOn] = useState(false);
@@ -16,7 +16,6 @@ function HoverLetter({ c }: { c: string }) {
 }
 
 export function Footer() {
-  const lenis = useLenis();
   return (
     <footer className="relative overflow-hidden border-t border-line px-4 pb-6 pt-[14vh] sm:px-8">
       <div className="flex flex-wrap items-end justify-between gap-8">
@@ -35,7 +34,7 @@ export function Footer() {
             </Magnetic>
           </div>
         </div>
-        <button onClick={() => (lenis ? lenis.scrollTo(0) : window.scrollTo({ top: 0, behavior: "smooth" }))} className="font-mono text-[10px] uppercase tracking-[0.3em] text-mute hover:text-ink sm:text-xs">
+        <button onClick={scrollToTop} className="font-mono text-[10px] uppercase tracking-[0.3em] text-mute hover:text-ink sm:text-xs">
           Back to top ↑
         </button>
       </div>

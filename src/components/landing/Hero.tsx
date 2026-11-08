@@ -51,46 +51,15 @@ function DepthLetter({ i, n, mx, my, children }: { i: number; n: number; mx: Mot
   );
 }
 
-/** Cinematic overlay: corner brackets, live cursor readout and an FPS meter. */
+/** Cinematic frame: four static corner brackets (no per-frame work). */
 function Hud({ show }: { show: boolean }) {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [fps, setFps] = useState(60);
-  useEffect(() => {
-    const move = (e: PointerEvent) => setPos({ x: e.clientX, y: e.clientY });
-    window.addEventListener("pointermove", move, { passive: true });
-    let frames = 0;
-    let last = performance.now();
-    let id = 0;
-    const tick = (now: number) => {
-      frames++;
-      if (now - last >= 500) {
-        setFps(Math.round((frames * 1000) / (now - last)));
-        frames = 0;
-        last = now;
-      }
-      id = requestAnimationFrame(tick);
-    };
-    id = requestAnimationFrame(tick);
-    return () => {
-      window.removeEventListener("pointermove", move);
-      cancelAnimationFrame(id);
-    };
-  }, []);
-  const corner = "absolute h-4 w-4 border-ink/40";
+  const corner = "absolute h-4 w-4 border-ink/30";
   return (
     <motion.div className="pointer-events-none absolute inset-3 z-10 hidden sm:block" initial={{ opacity: 0 }} animate={{ opacity: show ? 1 : 0 }} transition={{ duration: 1.2, delay: 1.2 }} aria-hidden>
       <span className={`${corner} left-0 top-0 border-l border-t`} />
       <span className={`${corner} right-0 top-0 border-r border-t`} />
       <span className={`${corner} bottom-0 left-0 border-b border-l`} />
       <span className={`${corner} bottom-0 right-0 border-b border-r`} />
-      <div className="absolute right-6 top-24 space-y-1 text-right font-mono text-[10px] uppercase tracking-[0.25em] text-ink/50">
-        <div>
-          x <span className="text-ink/80">{String(pos.x).padStart(4, "0")}</span> · y <span className="text-ink/80">{String(pos.y).padStart(4, "0")}</span>
-        </div>
-        <div>
-          <span className="text-acid">{fps}</span> fps · webgl
-        </div>
-      </div>
     </motion.div>
   );
 }
@@ -112,7 +81,6 @@ export function Hero() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "-35%"]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.82]);
-  const blur = useTransform(scrollYProgress, [0, 0.8], ["blur(0px)", "blur(12px)"]);
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
   const [hot, setHot] = useState(false);
   const ready = useIntroDone();
@@ -152,11 +120,11 @@ export function Hero() {
   const letterRefs = useRef<(HTMLElement | null)[]>([]);
   return (
     <section ref={ref} className="relative h-[100svh] min-h-[560px] overflow-hidden">
-      <ShaderCanvas frag={SILK} uniforms={uniforms as React.RefObject<Record<string, number>>} dpr={1.25} />
+      <ShaderCanvas frag={SILK} uniforms={uniforms as React.RefObject<Record<string, number>>} dpr={1} maxPixels={900_000} />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,#060608_100%)]" />
       <Hud show={ready} />
 
-      <motion.div className="relative z-10 flex h-full flex-col justify-end px-4 pb-6 sm:px-8 sm:pb-8" style={{ y, scale, filter: blur, opacity: fade }}>
+      <motion.div className="relative z-10 flex h-full flex-col justify-end px-4 pb-6 sm:px-8 sm:pb-8" style={{ y, scale, opacity: fade }}>
         <motion.div
           className="mb-4 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/70 sm:text-xs"
           initial={{ opacity: 0, y: 20 }}

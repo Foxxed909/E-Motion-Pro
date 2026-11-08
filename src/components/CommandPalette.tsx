@@ -7,7 +7,7 @@ import { DEMOS, GENRES, genreById } from "@/demos/registry";
 import { FONTS } from "@/lib/fonts";
 import { Stage } from "@/demos/Stage";
 import { setPaletteOpen, usePaletteOpen } from "@/lib/palette";
-import { useLenis } from "./SmoothScroll";
+import { lockScroll } from "./SmoothScroll";
 import { sound } from "@/lib/sound";
 import { EASE } from "@/lib/motion";
 
@@ -47,7 +47,6 @@ export function CommandPalette() {
   const [q, setQ] = useState("");
   const [sel, setSel] = useState(0);
   const router = useRouter();
-  const lenis = useLenis();
   const input = useRef<HTMLInputElement>(null);
   const list = useRef<HTMLDivElement>(null);
 
@@ -77,11 +76,11 @@ export function CommandPalette() {
     if (open) {
       setQ("");
       setSel(0);
-      lenis?.stop();
+      lockScroll(true);
       sound.play("toggle");
       setTimeout(() => input.current?.focus(), 30);
-    } else lenis?.start();
-  }, [open, lenis]);
+    } else lockScroll(false);
+  }, [open]);
 
   useEffect(() => setSel(0), [q]);
   useEffect(() => {
@@ -149,7 +148,7 @@ export function CommandPalette() {
                 />
                 <kbd className="rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-dim">ESC</kbd>
               </div>
-              <div ref={list} id="palette-list" role="listbox" className="no-scrollbar max-h-[56vh] overflow-y-auto p-2" data-lenis-prevent>
+              <div ref={list} id="palette-list" role="listbox" className="no-scrollbar max-h-[56vh] overflow-y-auto p-2">
                 {results.length === 0 && <div className="p-6 text-center font-mono text-xs uppercase tracking-[0.25em] text-dim">Nothing moves here</div>}
                 {results.map((it, i) => {
                   const header = it.group !== lastGroup;
@@ -185,7 +184,7 @@ export function CommandPalette() {
                 {active && (
                   <motion.div key={active.id} className="absolute inset-0 flex flex-col" initial={{ opacity: 0, filter: "blur(8px)" }} animate={{ opacity: 1, filter: "blur(0px)" }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
                     {active.demo ? (
-                      <Stage demo={active.demo} mini className="flex-1" />
+                      <Stage demo={active.demo} mini live className="flex-1" />
                     ) : (
                       <div className="flex flex-1 items-center justify-center bg-void p-6 text-center">
                         <span className={`${active.font ? `font-${active.font}` : "font-orbit"} text-6xl leading-none text-ink`}>{active.font ? (active.group === "Typefaces" ? "Aa Gg" : active.label) : active.label}</span>

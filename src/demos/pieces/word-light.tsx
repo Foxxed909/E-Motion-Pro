@@ -26,7 +26,7 @@ export default function WordLight({ mini }: { mini?: boolean }) {
   const words = TEXT.split(" ");
   const bar = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   return (
-    <div ref={ref} className="no-scrollbar absolute inset-0 overflow-y-auto" data-lenis-prevent>
+    <div ref={ref} className="no-scrollbar absolute inset-0 overflow-y-auto">
       <div className="h-[350%]">
         <div className="sticky top-0 flex h-[calc(100%/3.5)] flex-col justify-center px-[8cqw]">
           <div className="mb-[3cqh] font-mono text-[max(10px,1.3cqw)] uppercase tracking-[0.3em] text-mute">Manifesto — read slowly</div>

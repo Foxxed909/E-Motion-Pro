@@ -15,19 +15,47 @@ function useCoarse() {
 
 /**
  * Container every piece renders into. It is a CSS size container, so pieces scale
- * with cqw / cqh units. Thumbnails only mount while near the viewport and never
- * capture pointer/touch input (so swiping past them always scrolls the page).
+ * with cqw / cqh units.
+ *
+ * Thumbnails (mini) show a still poster and only run the live piece while hovered with
+ * a mouse, or when `live` is set (e.g. the centred card of a reel). That keeps at most
+ * one or two pieces animating at a time instead of every card on screen.
+ * Thumbnails never capture pointer/touch input, so swiping past them always scrolls.
  */
-export function Stage({ demo, mini = false, className = "", replayKey = 0 }: { demo: Demo; mini?: boolean; className?: string; replayKey?: number }) {
-  const [ref, inView] = useInView<HTMLDivElement>({ margin: "200px" });
+export function Stage({
+  demo,
+  mini = false,
+  live = false,
+  className = "",
+  replayKey = 0,
+}: {
+  demo: Demo;
+  mini?: boolean;
+  live?: boolean;
+  className?: string;
+  replayKey?: number;
+}) {
+  const [ref, inView] = useInView<HTMLDivElement>({ margin: "100px" });
   const coarse = useCoarse();
   const [engaged, setEngaged] = useState(false);
+  const [hover, setHover] = useState(false);
   const Piece = PIECES[demo.slug];
   const gated = !mini && coarse && !!demo.gate;
+  const running = !mini || (inView && (live || hover));
   return (
-    <div ref={ref} className={`relative overflow-hidden [container-type:size] ${className}`} style={{ background: demo.tone }}>
+    <div
+      ref={ref}
+      className={`relative overflow-hidden [container-type:size] ${className}`}
+      style={{ background: demo.tone }}
+      onPointerEnter={mini ? (e) => e.pointerType === "mouse" && setHover(true) : undefined}
+      onPointerLeave={mini ? () => setHover(false) : undefined}
+    >
+      {mini && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={`/posters/${demo.slug}.webp`} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover transition-opacity duration-300" style={{ opacity: running ? 0 : 1, transitionDelay: running ? "150ms" : "0ms" }} draggable={false} />
+      )}
       <div className={`absolute inset-0 ${mini || (gated && !engaged) ? "pointer-events-none" : ""}`}>
-        {(inView || !mini) && Piece && <Piece key={replayKey} mini={mini} />}
+        {running && Piece && <Piece key={replayKey} mini={mini} />}
       </div>
       <AnimatePresence>
         {gated && !engaged && (

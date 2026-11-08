@@ -39,7 +39,7 @@ export default function StackingCards({ mini }: { mini?: boolean }) {
   const { scrollYProgress } = useScroll({ container: ref });
   useAutoScroll(ref, true, mini ? 0.2 : 0.1);
   return (
-    <div ref={ref} className="no-scrollbar absolute inset-0 overflow-y-auto" data-lenis-prevent>
+    <div ref={ref} className="no-scrollbar absolute inset-0 overflow-y-auto">
       <div className="pb-[40cqh] pt-[4cqh]">
         {CARDS.map((c, i) => (
           <Card key={c.n} c={c} i={i} p={scrollYProgress} />

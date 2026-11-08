@@ -13,6 +13,9 @@ type Props = {
   /** Extra uniforms read every frame (mutate the ref object to animate). */
   uniforms?: React.RefObject<Uniforms>;
   speed?: number;
+  /** Upper bound on rendered pixels per frame; the canvas is upscaled by CSS beyond it.
+      Keeps soft, full-screen shaders cheap on 4K/5K displays. */
+  maxPixels?: number;
 };
 
 const VERT = `attribute vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }`;
@@ -21,7 +24,7 @@ const HEADER = `precision highp float;
 uniform vec2 u_res; uniform float u_time; uniform vec2 u_mouse; uniform float u_hover;
 `;
 
-export function ShaderCanvas({ frag, className, dpr = 1.5, uniforms, speed = 1 }: Props) {
+export function ShaderCanvas({ frag, className, dpr = 1.5, uniforms, speed = 1, maxPixels = 1_200_000 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -69,7 +72,9 @@ export function ShaderCanvas({ frag, className, dpr = 1.5, uniforms, speed = 1 }
 
     const resize = () => {
       const coarse = window.matchMedia("(pointer: coarse)").matches;
-      const ratio = Math.min(window.devicePixelRatio || 1, coarse ? Math.min(dpr, 1) : dpr);
+      let ratio = Math.min(window.devicePixelRatio || 1, coarse ? Math.min(dpr, 1) : dpr);
+      const area = canvas.clientWidth * canvas.clientHeight * ratio * ratio;
+      if (area > maxPixels) ratio *= Math.sqrt(maxPixels / area);
       const w = Math.max(1, Math.floor(canvas.clientWidth * ratio));
       const h = Math.max(1, Math.floor(canvas.clientHeight * ratio));
       if (canvas.width !== w || canvas.height !== h) {
@@ -124,7 +129,7 @@ export function ShaderCanvas({ frag, className, dpr = 1.5, uniforms, speed = 1 }
       gl.getExtension("WEBGL_lose_context")?.loseContext();
       canvas.remove();
     };
-  }, [frag, dpr, uniforms, speed]);
+  }, [frag, dpr, uniforms, speed, maxPixels]);
 
   return <div ref={ref} className={className ?? "absolute inset-0 h-full w-full"} />;
 }

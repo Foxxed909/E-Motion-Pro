@@ -43,17 +43,19 @@ function Counter({ active }: { active: number }) {
   );
 }
 
-function Card({ d, i, p }: { d: Demo; i: number; p: MotionValue<number> }) {
+function Card({ d, i, p, active }: { d: Demo; i: number; p: MotionValue<number>; active: boolean }) {
   const dist = useTransform(p, (v) => Math.min(1, Math.abs(v * (N - 1) - i)));
   const scale = useTransform(dist, [0, 1], [1, 0.86]);
-  const filter = useTransform(dist, [0, 1], ["brightness(1) saturate(1)", "brightness(0.45) saturate(0.6)"]);
+  // Dimming via an overlay's opacity (compositor-only) rather than a CSS filter over live canvases.
+  const dim = useTransform(dist, [0, 1], [0, 0.6]);
   const meta = useTransform(dist, [0, 0.5], [1, 0]);
   return (
     <motion.div className="w-[58vw] shrink-0" style={{ scale }}>
       <Link href={`/motion/${d.slug}`} className="group block" data-cursor="view">
-        <motion.div className="overflow-hidden rounded-3xl ring-1 ring-line" style={{ filter }}>
-          <Stage demo={d} mini className="aspect-[16/10] w-full transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.03]" />
-        </motion.div>
+        <div className="relative overflow-hidden rounded-3xl ring-1 ring-line">
+          <Stage demo={d} mini live={active} className="aspect-[16/10] w-full" />
+          <motion.div className="pointer-events-none absolute inset-0 bg-void" style={{ opacity: dim }} />
+        </div>
         <motion.div className="mt-4 flex items-baseline justify-between font-mono text-xs uppercase tracking-[0.25em] text-mute" style={{ opacity: meta }}>
           <span>{d.tags.join(" · ")}</span>
           <span className="text-acid">Open piece →</span>
@@ -98,7 +100,7 @@ function FeaturedPinned() {
         </div>
         <motion.div ref={track} className="flex w-max items-start gap-10" style={{ x }}>
           {DEMOS.map((d, i) => (
-            <Card key={d.slug} d={d} i={i} p={scrollYProgress} />
+            <Card key={d.slug} d={d} i={i} p={scrollYProgress} active={i === active} />
           ))}
         </motion.div>
       </div>
@@ -132,10 +134,10 @@ function FeaturedSwipe() {
           setActive(Math.max(0, Math.min(N - 1, Math.round(el.scrollLeft / step))));
         }}
       >
-        {DEMOS.map((d) => (
+        {DEMOS.map((d, i) => (
           <Link key={d.slug} href={`/motion/${d.slug}`} className="block w-[84vw] shrink-0 snap-start">
             <div className="overflow-hidden rounded-2xl ring-1 ring-line">
-              <Stage demo={d} mini className="aspect-[4/3] w-full" />
+              <Stage demo={d} mini live={i === active} className="aspect-[4/3] w-full" />
             </div>
             <div className="mt-3 font-mono text-[11px] uppercase tracking-[0.2em] text-mute">{d.tags.join(" · ")}</div>
           </Link>

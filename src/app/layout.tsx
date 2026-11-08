@@ -6,10 +6,8 @@ import { Providers } from "@/components/Providers";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { siteUrl } from "@/lib/site";
-import { Cursor } from "@/components/Cursor";
 import { Nav } from "@/components/Nav";
 import { CommandPalette } from "@/components/CommandPalette";
-import { ScrollProgress } from "@/components/ScrollProgress";
 import { FONT_COUNT, PIECE_COUNT, GENRE_COUNT } from "@/lib/counts";
 
 export const metadata: Metadata = {
@@ -39,11 +37,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="font-sans">
         <Providers>
-          <ScrollProgress />
           <Nav />
           <main>{children}</main>
           <CommandPalette />
-          <Cursor />
           <div className="grain" aria-hidden />
         </Providers>
         <Analytics />

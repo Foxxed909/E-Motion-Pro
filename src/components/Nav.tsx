@@ -4,14 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { FontCycle } from "./Type";
-import { Magnetic } from "./Magnetic";
 import { SoundToggle } from "./Sound";
 import { PaletteButton } from "./CommandPalette";
 import { setPaletteOpen } from "@/lib/palette";
-import { EASE } from "@/lib/motion";
-import { DEMOS } from "@/demos/registry";
-import { FONTS } from "@/lib/fonts";
+import { lockScroll } from "./SmoothScroll";
 
 const LINKS = [
   { href: "/gallery", label: "Gallery" },
@@ -19,95 +15,127 @@ const LINKS = [
   { href: "/#genres", label: "Genres" },
 ];
 
+/**
+ * Calm, solid navigation: transparent over the hero, a frosted bar once you scroll,
+ * tucked away while scrolling down and back as soon as you scroll up.
+ */
 export function Nav() {
   const path = usePathname();
-  const [hoverLogo, setHoverLogo] = useState(false);
   const [open, setOpen] = useState(false);
-  const [hovered, setHovered] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
   useEffect(() => setOpen(false), [path]);
+  useEffect(() => lockScroll(open), [open]);
+
+  useEffect(() => {
+    let last = window.scrollY;
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const y = window.scrollY;
+        setScrolled(y > 24);
+        if (Math.abs(y - last) > 6) {
+          setHidden(y > last && y > 240);
+          last = y;
+        }
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  const isActive = (href: string) => (href.startsWith("/#") ? false : path === href || path.startsWith(href + "/"));
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 mix-blend-difference">
-        <nav className="flex items-center justify-between px-4 py-4 sm:px-8 sm:py-6">
-          <Link
-            href="/"
-            className="whitespace-nowrap text-lg tracking-wide text-ink sm:text-2xl"
-            onPointerEnter={() => setHoverLogo(true)}
-            onPointerLeave={() => setHoverLogo(false)}
-            aria-label="E-Motion Pro home"
-          >
-            <FontCycle text="E—MOTION" active={hoverLogo} settle="orbit" interval={90} chance={0.4} />
-            <sup className="ml-1 font-mono text-[10px] tracking-widest text-ink/60">PRO</sup>
+      <motion.header
+        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 ${
+          scrolled || open ? "border-b border-line bg-void/85 backdrop-blur-md" : "border-b border-transparent"
+        }`}
+        animate={{ y: hidden && !open ? "-100%" : "0%" }}
+        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+      >
+        <nav className="mx-auto flex h-14 items-center justify-between px-4 sm:h-16 sm:px-8" aria-label="Main">
+          <Link href="/" className="whitespace-nowrap font-orbit text-lg tracking-wide text-ink sm:text-xl" aria-label="E-Motion Pro home">
+            E—MOTION<sup className="ml-1 font-mono text-[10px] tracking-widest text-mute">PRO</sup>
           </Link>
-          <ul className="hidden items-center gap-2 md:flex" onPointerLeave={() => setHovered(null)}>
+
+          <ul className="hidden items-center gap-8 md:flex">
             {LINKS.map((l) => {
-              const active = l.href === path;
+              const active = isActive(l.href);
               return (
-                <li key={l.href} className="relative">
-                  <Magnetic strength={0.25}>
-                    <Link
-                      href={l.href}
-                      onPointerEnter={() => setHovered(l.href)}
-                      className="relative block px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] text-ink"
-                    >
-                      {hovered === l.href && (
-                        <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-full bg-ink/15" transition={{ type: "spring", stiffness: 400, damping: 30 }} />
-                      )}
-                      <span className="relative">
-                        {l.label}
-                      </span>
-                      {active && <span className="absolute -bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-ink" />}
-                    </Link>
-                  </Magnetic>
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`relative py-2 text-sm transition-colors ${active ? "text-ink" : "text-mute hover:text-ink"}`}
+                  >
+                    {l.label}
+                    {active && <motion.span layoutId="nav-active" className="absolute -bottom-0.5 left-0 right-0 h-px bg-acid" />}
+                  </Link>
                 </li>
               );
             })}
           </ul>
-          <div className="hidden items-center gap-6 md:flex">
-            <span className="hidden font-mono text-xs uppercase tracking-[0.2em] text-ink/70 xl:inline">
-              {DEMOS.length} pieces / {FONTS.length} fonts
-            </span>
-            <PaletteButton />
-            <SoundToggle />
+
+          <div className="hidden items-center gap-2 md:flex">
+            <PaletteButton className="h-9 rounded-full border border-line px-3 text-mute transition-colors hover:border-ink/30 hover:text-ink" />
+            <SoundToggle className="h-9 rounded-full px-2 text-mute hover:text-ink" />
           </div>
-          <div className="relative z-10 flex items-center gap-3 md:hidden">
+
+          <div className="flex items-center gap-1 md:hidden">
             <button onClick={() => setPaletteOpen(true)} className="flex h-11 w-11 items-center justify-center text-ink" aria-label="Search">
-              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.6}><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4.5 4.5" strokeLinecap="round" /></svg>
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.6}>
+                <circle cx="11" cy="11" r="6.5" />
+                <path d="M16 16l4.5 4.5" strokeLinecap="round" />
+              </svg>
             </button>
-          <button
-            className="relative z-10 flex h-11 w-11 flex-col items-center justify-center gap-1.5"
-            onClick={() => setOpen((o) => !o)}
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-          >
-            <motion.span className="block h-px w-6 bg-ink" animate={open ? { rotate: 45, y: 3.5 } : { rotate: 0, y: 0 }} />
-            <motion.span className="block h-px w-6 bg-ink" animate={open ? { rotate: -45, y: -3.5 } : { rotate: 0, y: 0 }} />
-          </button>
+            <button
+              className="flex h-11 w-11 flex-col items-center justify-center gap-1.5"
+              onClick={() => setOpen((o) => !o)}
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+            >
+              <motion.span className="block h-px w-5 bg-ink" animate={open ? { rotate: 45, y: 3.5 } : { rotate: 0, y: 0 }} />
+              <motion.span className="block h-px w-5 bg-ink" animate={open ? { rotate: -45, y: -3.5 } : { rotate: 0, y: 0 }} />
+            </button>
           </div>
         </nav>
-      </header>
+      </motion.header>
+
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-40 flex flex-col justify-end bg-acid p-6 pb-16 text-void md:hidden"
-            initial={{ clipPath: "circle(0% at 92% 4%)" }}
-            animate={{ clipPath: "circle(150% at 92% 4%)" }}
-            exit={{ clipPath: "circle(0% at 92% 4%)" }}
-            transition={{ duration: 0.8, ease: EASE.quart }}
+            className="fixed inset-0 z-40 flex flex-col bg-void px-4 pb-10 pt-20 md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
           >
-            <motion.div className="mb-8 border-b border-void/20 pb-4" initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.5 } }}>
-              <SoundToggle label dark className="!justify-start" />
-            </motion.div>
-            {[{ href: "/", label: "Home" }, ...LINKS].map((l, i) => (
-              <motion.div key={l.href} className="overflow-hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ delay: 0.25 + i * 0.07, duration: 0.8, ease: EASE.expo }}>
-                  <Link href={l.href} className="block py-1 font-monolith text-6xl uppercase leading-none">
+            <nav aria-label="Mobile" className="flex flex-col">
+              {[{ href: "/", label: "Home" }, ...LINKS].map((l, i) => (
+                <motion.div key={l.href} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.04 * i, duration: 0.25 }}>
+                  <Link
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className={`flex items-center justify-between border-b border-line py-4 text-2xl ${path === l.href ? "text-ink" : "text-ink/80"}`}
+                  >
                     {l.label}
+                    <span className="text-base text-dim">→</span>
                   </Link>
                 </motion.div>
-              </motion.div>
-            ))}
+              ))}
+            </nav>
+            <div className="mt-auto flex items-center justify-between border-t border-line pt-4">
+              <span className="font-mono text-xs uppercase tracking-[0.18em] text-mute">Interface sounds</span>
+              <SoundToggle label />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

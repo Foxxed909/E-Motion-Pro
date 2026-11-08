@@ -3,7 +3,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { FontCycle } from "../Type";
-import { useLenis } from "../SmoothScroll";
 import { EASE } from "@/lib/motion";
 import { setIntroDone } from "@/lib/intro";
 import { FONT_COUNT, PIECE_COUNT, GENRE_COUNT } from "@/lib/counts";
@@ -12,7 +11,6 @@ import { FONT_COUNT, PIECE_COUNT, GENRE_COUNT } from "@/lib/counts";
 export function Preloader() {
   const [show, setShow] = useState(true);
   const [n, setN] = useState(0);
-  const lenis = useLenis();
 
   useEffect(() => {
     let seen = false;
@@ -47,10 +45,6 @@ export function Preloader() {
     };
   }, []);
 
-  useEffect(() => {
-    if (show) lenis?.stop();
-    else lenis?.start();
-  }, [show, lenis]);
 
   return (
     <AnimatePresence>
