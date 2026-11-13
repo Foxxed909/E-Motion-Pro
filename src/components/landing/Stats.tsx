@@ -33,7 +33,7 @@ export function Stats() {
     <section ref={ref} className="grid grid-cols-2 bg-acid text-void lg:grid-cols-4">
       {STATS.map((s, i) => (
         <div key={s.label} className={`flex flex-col justify-between gap-10 p-6 sm:p-8 ${i % 2 === 0 ? "border-r" : ""} ${i < 2 ? "border-b lg:border-b-0" : ""} border-void/15 lg:border-r lg:last:border-r-0`}>
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-void/60 sm:text-xs">{s.label}</span>
+          <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-void/60 sm:text-xs">{s.label}</span>
           <span className="text-[18vw] leading-none text-void lg:text-[9vw]">
             <Counter to={s.n} run={inView} font={s.font} />
           </span>

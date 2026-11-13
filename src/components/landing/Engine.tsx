@@ -45,9 +45,9 @@ export function Engine() {
 
   return (
     <section ref={ref} className="relative h-[230vh] border-t border-line md:h-[340vh]">
-      <div className="sticky top-0 grid h-[100svh] items-center gap-8 overflow-hidden px-4 pt-16 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
+      <div className="sticky top-0 grid h-[100svh] content-center items-center gap-10 overflow-hidden px-4 pb-24 pt-16 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:pb-0">
         <div className="relative z-10">
-          <SectionLabel n={4}>The font engine</SectionLabel>
+          <SectionLabel n={5}>The font engine</SectionLabel>
           <h2 className="mt-5 text-[11vw] font-medium leading-[0.9] tracking-[-0.04em] text-ink sm:text-[6vw] lg:text-[4.4vw]">
             One skeleton.
             <br />
@@ -64,7 +64,18 @@ export function Engine() {
               </motion.li>
             ))}
           </ol>
-          <div className="mt-8 h-px w-full max-w-md bg-line">
+          <div className="mt-5 min-h-[5.5rem] sm:hidden">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div key={step} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}>
+                <div className="flex items-baseline gap-3">
+                  <span className="font-mono text-xs text-acid">0{step + 1}</span>
+                  <span className="text-xl text-ink">{STEPS[step].t}</span>
+                </div>
+                <p className="mt-1 text-sm text-mute">{STEPS[step].d}</p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+          <div className="mt-6 h-px w-full max-w-md bg-line sm:mt-8">
             <motion.div className="h-full bg-acid" style={{ width: bar }} />
           </div>
         </div>
@@ -81,7 +92,7 @@ export function Engine() {
               <motion.g style={{ opacity: nodes }}>
                 {NODES.map(([x, y], i) => (
                   <g key={i}>
-                    <circle cx={x} cy={y} r={16} fill="#060608" stroke="#f3efe7" strokeWidth={4} />
+                    <circle cx={x} cy={y} r={16} fill="#09090c" stroke="#f3efe7" strokeWidth={4} />
                   </g>
                 ))}
               </motion.g>
@@ -102,7 +113,7 @@ export function Engine() {
               </motion.div>
             )}
           </AnimatePresence>
-          <div className="absolute left-0 right-0 top-full mt-4 flex flex-col items-start gap-3 font-mono text-[10px] uppercase tracking-[0.25em] sm:flex-row sm:items-center sm:justify-between sm:text-xs">
+          <div className="absolute left-0 right-0 top-full mt-4 flex flex-col items-start gap-3 font-mono text-[11px] uppercase tracking-[0.2em] sm:flex-row sm:items-center sm:justify-between sm:text-xs">
             <AnimatePresence mode="wait">
               <motion.span key={step === 0 ? "skel" : f.slug} className="text-mute" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.15 }}>
                 {step === 0 ? "centre lines · 15 nodes · 3 strokes" : (

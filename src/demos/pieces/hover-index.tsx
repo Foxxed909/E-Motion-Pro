@@ -69,9 +69,9 @@ export default function HoverIndex({ mini }: { mini?: boolean }) {
               key={active}
               className="absolute inset-0 flex items-end overflow-hidden rounded-[1.4cqh] p-[2cqh] shadow-2xl"
               style={{ background: ROWS[active].g }}
-              initial={{ clipPath: "inset(100% 0 0 0)", scale: 1.1 }}
-              animate={{ clipPath: "inset(0% 0 0 0)", scale: 1 }}
-              exit={{ clipPath: "inset(0 0 100% 0)", transition: { duration: 0.3 } }}
+              initial={{ clipPath: "inset(100% 0% 0% 0%)", scale: 1.1 }}
+              animate={{ clipPath: "inset(0% 0% 0% 0%)", scale: 1 }}
+              exit={{ clipPath: "inset(0% 0% 100% 0%)", transition: { duration: 0.3 } }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
               <span className={`font-${ROWS[active].font} text-[6cqh] leading-none text-white`}>{ROWS[active].name.slice(0, 2)}</span>

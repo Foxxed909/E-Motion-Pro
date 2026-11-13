@@ -56,7 +56,6 @@ export default function BottomSheet({ mini }: { mini?: boolean }) {
               });
               snap(best);
             }}
-            data-cursor="drag"
           >
             <div className="mx-auto mt-[1.2cqh] h-[0.6cqh] w-[5cqh] rounded-full bg-white/30" />
             <div className="px-[2.4cqh] pt-[2cqh]">

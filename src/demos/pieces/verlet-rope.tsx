@@ -83,5 +83,5 @@ export default function VerletRope({ mini }: { mini?: boolean }) {
     },
     [mini],
   );
-  return <canvas ref={ref} className="absolute inset-0 h-full w-full" data-cursor-hide />;
+  return <canvas ref={ref} className="absolute inset-0 h-full w-full" />;
 }

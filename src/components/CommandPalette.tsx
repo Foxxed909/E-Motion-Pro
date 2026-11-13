@@ -49,6 +49,7 @@ export function CommandPalette() {
   const router = useRouter();
   const input = useRef<HTMLInputElement>(null);
   const list = useRef<HTMLDivElement>(null);
+  const opener = useRef<HTMLElement | null>(null);
 
   const results = useMemo(() => {
     return ITEMS.map((it) => ({ it, s: Math.max(score(q, it.label), score(q, it.hint) - 300) }))
@@ -63,7 +64,7 @@ export function CommandPalette() {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setPaletteOpen(!open);
-      } else if (e.key === "/" && !open && !(e.target as HTMLElement)?.closest("input,textarea")) {
+      } else if (e.key === "/" && !open && !e.metaKey && !e.ctrlKey && !e.altKey && !(e.target as HTMLElement)?.closest?.("input,textarea,select,[contenteditable='true']")) {
         e.preventDefault();
         setPaletteOpen(true);
       }
@@ -73,13 +74,19 @@ export function CommandPalette() {
   }, [open]);
 
   useEffect(() => {
-    if (open) {
-      setQ("");
-      setSel(0);
-      lockScroll(true);
-      sound.play("toggle");
-      setTimeout(() => input.current?.focus(), 30);
-    } else lockScroll(false);
+    if (!open) return;
+    // Remember what had focus so closing the palette hands it back.
+    opener.current = document.activeElement as HTMLElement | null;
+    setQ("");
+    setSel(0);
+    lockScroll("palette", true);
+    sound.play("toggle");
+    const t = setTimeout(() => input.current?.focus(), 30);
+    return () => {
+      clearTimeout(t);
+      lockScroll("palette", false);
+      opener.current?.focus?.({ preventScroll: true });
+    };
   }, [open]);
 
   useEffect(() => setSel(0), [q]);
@@ -135,8 +142,16 @@ export function CommandPalette() {
                       e.preventDefault();
                       setSel((s) => Math.max(0, s - 1));
                       sound.play("hover");
+                    } else if (e.key === "Home" && results.length) {
+                      e.preventDefault();
+                      setSel(0);
+                    } else if (e.key === "End" && results.length) {
+                      e.preventDefault();
+                      setSel(results.length - 1);
                     } else if (e.key === "Enter") go(active);
                     else if (e.key === "Escape") setPaletteOpen(false);
+                    // The field is the only tab stop in the dialog, so Tab stays put.
+                    else if (e.key === "Tab") e.preventDefault();
                   }}
                   placeholder="Search pieces, fonts, genres…"
                   className="w-full bg-transparent py-4 text-base text-ink outline-none placeholder:text-dim"
@@ -146,20 +161,21 @@ export function CommandPalette() {
                   aria-controls="palette-list"
                   aria-activedescendant={active ? `pal-${active.id}` : undefined}
                 />
-                <kbd className="rounded border border-line px-1.5 py-0.5 font-mono text-[10px] text-dim">ESC</kbd>
+                <kbd className="rounded border border-line px-1.5 py-0.5 font-mono text-[11px] text-dim">ESC</kbd>
               </div>
               <div ref={list} id="palette-list" role="listbox" className="no-scrollbar max-h-[56vh] overflow-y-auto p-2">
-                {results.length === 0 && <div className="p-6 text-center font-mono text-xs uppercase tracking-[0.25em] text-dim">Nothing moves here</div>}
+                {results.length === 0 && <div className="p-6 text-center font-mono text-xs uppercase tracking-[0.2em] text-dim">Nothing moves here</div>}
                 {results.map((it, i) => {
                   const header = it.group !== lastGroup;
                   lastGroup = it.group;
                   return (
                     <div key={it.id}>
-                      {header && <div className="px-3 pb-1 pt-3 font-mono text-[10px] uppercase tracking-[0.3em] text-dim">{it.group}</div>}
+                      {header && <div className="px-3 pb-1 pt-3 font-mono text-[11px] uppercase tracking-[0.22em] text-dim">{it.group}</div>}
                       <button
                         id={`pal-${it.id}`}
                         data-idx={i}
                         role="option"
+                        tabIndex={-1}
                         aria-selected={i === sel}
                         onPointerMove={() => i !== sel && setSel(i)}
                         onClick={() => go(it)}
@@ -167,14 +183,15 @@ export function CommandPalette() {
                       >
                         {i === sel && <motion.span layoutId="pal-sel" className="absolute inset-0 rounded-lg bg-ink/10 ring-1 ring-acid/40" transition={{ type: "spring", stiffness: 500, damping: 38 }} />}
                         <span className={`relative truncate text-[15px] ${it.font ? `font-${it.font} text-lg` : ""} ${i === sel ? "text-ink" : "text-ink/80"}`}>{it.label}</span>
-                        <span className="relative shrink-0 truncate font-mono text-[10px] uppercase tracking-[0.2em] text-dim">{it.hint}</span>
+                        <span className="relative shrink-0 truncate font-mono text-[11px] uppercase tracking-[0.2em] text-dim">{it.hint}</span>
                       </button>
                     </div>
                   );
                 })}
               </div>
-              <div className="flex gap-4 border-t border-line px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-dim">
+              <div className="flex gap-4 border-t border-line px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-dim" aria-live="polite">
                 <span>↑↓ navigate</span>
+                <span className="hidden sm:inline">esc close</span>
                 <span>↵ open</span>
                 <span className="ml-auto">{results.length} results</span>
               </div>
@@ -191,7 +208,7 @@ export function CommandPalette() {
                       </div>
                     )}
                     <div className="border-t border-line p-4">
-                      <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-acid">{active.group}</div>
+                      <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-acid">{active.group}</div>
                       <div className="mt-1 text-sm text-mute">{active.demo?.blurb ?? active.hint}</div>
                     </div>
                   </motion.div>
@@ -209,7 +226,7 @@ export function PaletteButton({ className = "" }: { className?: string }) {
   return (
     <button onClick={() => setPaletteOpen(true)} className={`flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-ink ${className}`} aria-label="Open search">
       <span className="hidden lg:inline">Search</span>
-      <kbd className="rounded border border-ink/30 px-1.5 py-0.5 text-[10px]">⌘K</kbd>
+      <kbd className="rounded border border-ink/30 px-1.5 py-0.5 text-[11px]">⌘K</kbd>
     </button>
   );
 }

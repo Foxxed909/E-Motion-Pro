@@ -9,7 +9,7 @@ import { Magnetic } from "../Magnetic";
 import { EASE } from "@/lib/motion";
 import { useIntroDone } from "@/lib/intro";
 import Link from "next/link";
-import { FONT_COUNT, PIECE_COUNT, GENRE_COUNT } from "@/lib/counts";
+import { FONT_COUNT } from "@/lib/counts";
 
 const SILK = GLSL_NOISE + `
 uniform float u_scroll;
@@ -121,12 +121,13 @@ export function Hero() {
   return (
     <section ref={ref} className="relative h-[100svh] min-h-[560px] overflow-hidden">
       <ShaderCanvas frag={SILK} uniforms={uniforms as React.RefObject<Record<string, number>>} dpr={1} maxPixels={900_000} />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,#060608_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,#09090c_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-void via-void/55 to-transparent" />
       <Hud show={ready} />
 
       <motion.div className="relative z-10 flex h-full flex-col justify-end px-4 pb-6 sm:px-8 sm:pb-8" style={{ y, scale, opacity: fade }}>
         <motion.div
-          className="mb-4 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/70 sm:text-xs"
+          className="mb-4 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.22em] text-ink/70 sm:text-xs"
           initial={{ opacity: 0, y: 20 }}
           animate={ready ? { opacity: 1, y: 0 } : undefined}
           transition={{ delay: 1.6 + D, duration: 1, ease: EASE.expo }}
@@ -143,7 +144,7 @@ export function Hero() {
           onPointerEnter={() => setHot(true)}
           onPointerLeave={() => setHot(false)}
           aria-label="E-Motion"
-          data-cursor="shuffle"
+         
         >
           <span className="flex overflow-hidden px-[0.1em] pb-[0.08em] pt-[0.04em] -mx-[0.1em]">
             {Array.from(word).map((c, i) => (
@@ -178,14 +179,14 @@ export function Hero() {
           </motion.p>
           <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={ready ? { opacity: 1, scale: 1 } : undefined} transition={{ delay: 1.9 + D, duration: 1, ease: EASE.back }}>
             <Magnetic>
-              <Link href="/gallery" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-acid px-6 py-4 font-mono text-xs uppercase tracking-[0.25em] text-void">
+              <Link href="/gallery" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-acid px-6 py-4 font-mono text-xs uppercase tracking-[0.2em] text-void">
                 Enter the gallery
                 <span className="inline-block transition-transform duration-500 group-hover:translate-x-1 group-hover:-rotate-45">→</span>
               </Link>
             </Magnetic>
           </motion.div>
           <motion.div
-            className="hidden flex-col items-end gap-1 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 md:flex"
+            className="hidden flex-col items-end gap-1 font-mono text-[11px] uppercase tracking-[0.22em] text-ink/60 md:flex"
             initial={{ opacity: 0 }}
             animate={ready ? { opacity: 1 } : undefined}
             transition={{ delay: 2.1 + D }}

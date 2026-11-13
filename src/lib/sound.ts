@@ -19,6 +19,8 @@ class SoundEngine {
     try {
       this.enabled = localStorage.getItem("emp-sound") === "1";
     } catch {}
+    // Tell subscribers, or the toggle keeps saying "off" after a reload with sound on.
+    if (this.enabled) this.emit();
   }
   subscribe = (f: () => void) => {
     this.subs.add(f);

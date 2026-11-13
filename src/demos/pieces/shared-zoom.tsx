@@ -39,7 +39,6 @@ export default function SharedZoom({ mini }: { mini?: boolean }) {
             style={{ background: c.g, borderRadius: 18 }}
             transition={spring}
             whileHover={{ y: -6 }}
-            data-cursor="open"
           >
             <motion.span layoutId={`title-${c.id}`} className={`font-${c.font} absolute bottom-[6%] left-[8%] text-ink`} style={{ fontSize: "min(4cqw,8cqh)" }} transition={spring}>
               {c.title}
@@ -55,7 +54,6 @@ export default function SharedZoom({ mini }: { mini?: boolean }) {
             style={{ background: card.g, borderRadius: 24 }}
             transition={spring}
             onClick={() => setOpen(null)}
-            data-cursor="close"
           >
             <motion.span layoutId={`title-${card.id}`} className={`font-${card.font} absolute left-[6%] top-[10%] text-ink`} style={{ fontSize: "min(13cqw,26cqh)", lineHeight: 1 }} transition={spring}>
               {card.title}

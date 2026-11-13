@@ -64,6 +64,7 @@ export const DEMOS: Demo[] = [
   { slug: "circle-portal", title: "Circle Portal", genre: "transitions", blurb: "The next page grows out of exactly where you clicked.", tags: ["clip-path", "pointer"], tone: "#0d0d12", hint: "Click anywhere" },
   { slug: "pixel-dissolve", title: "Pixel Dissolve", genre: "transitions", blurb: "A grid of tiles flips in a diagonal wave to swap scenes.", tags: ["grid", "wave"], tone: "#08080a" },
   { slug: "shared-zoom", title: "Shared Zoom", genre: "transitions", blurb: "Cards morph seamlessly into full-bleed detail views.", tags: ["layout", "shared element"], tone: "#f3efe7", hint: "Open a card" },
+  { slug: "blinds-flip", title: "Blinds Flip", genre: "transitions", blurb: "The page is cut into slats that flip in a cascade, with the next route on their backs.", tags: ["3d flip", "stagger"], tone: "#000", hint: "Click to flip now" },
 
   // Micro
   { slug: "spotlight-cards", title: "Spotlight Cards", genre: "micro", blurb: "A shared light source that glows through every card border.", tags: ["gradient", "pointer"], tone: "#08080b", hint: "Move across the grid" },
@@ -71,6 +72,7 @@ export const DEMOS: Demo[] = [
   { slug: "morph-toggles", title: "Morph Toggles", genre: "micro", blurb: "Day/night switch, heart burst and self-drawing checkbox.", tags: ["svg", "spring"], tone: "#1a1530", hint: "Tap everything" },
   { slug: "submit-flow", title: "Submit Flow", genre: "micro", blurb: "A button that becomes a loader, then a triumphant check.", tags: ["state", "morph"], tone: "#0e1512", hint: "Press send" },
   { slug: "elastic-slider", title: "Elastic Slider", gate: "drag", genre: "micro", blurb: "Rubber-band overscroll and a rolling odometer readout.", tags: ["drag", "odometer"], tone: "#101014", hint: "Drag past the edges" },
+  { slug: "magnify-dock", title: "Magnify Dock", genre: "micro", blurb: "Dock icons that swell under the pointer, each on its own spring.", tags: ["spring", "pointer"], tone: "#0c0b16", hint: "Glide along the dock" },
 
   // App UI
   { slug: "dynamic-pill", title: "Dynamic Pill", genre: "app", blurb: "A system island morphing between call, music and timer states.", tags: ["morph", "layout"], tone: "#e9e5dd" },
@@ -92,18 +94,21 @@ export const DEMOS: Demo[] = [
   { slug: "warp-tunnel", title: "Warp Tunnel", genre: "shader", blurb: "An infinite polar-coordinate tunnel at light speed.", tags: ["glsl", "polar"], tone: "#000", hint: "Steer with the pointer" },
   { slug: "plasma-orb", title: "Plasma Orb", genre: "shader", blurb: "A living sphere of electric plasma with rim light.", tags: ["glsl", "sdf"], tone: "#000" },
   { slug: "halftone-wave", title: "Halftone Wave", genre: "shader", blurb: "Print-style dot screens rippling like water.", tags: ["glsl", "halftone"], tone: "#000", hint: "Hover to drop ripples" },
+  { slug: "voronoi-glass", title: "Voronoi Glass", genre: "shader", blurb: "Stained-glass cells that drift, catch the light and bulge under the pointer.", tags: ["glsl", "voronoi"], tone: "#000", hint: "Press into the glass" },
 
   // Particles
   { slug: "verlet-rope", title: "Verlet Ropes", genre: "particles", blurb: "Hanging ropes simulated with Verlet integration. Push them around.", tags: ["canvas", "verlet"], tone: "#060609", hint: "Swing through the ropes" },
   { slug: "particle-type", title: "Particle Type", genre: "particles", blurb: "Thousands of particles assemble into words and scatter from your touch.", tags: ["canvas", "physics"], tone: "#050507", hint: "Disturb the particles" },
   { slug: "flow-field", title: "Flow Field", genre: "particles", blurb: "Agents tracing invisible currents into silk.", tags: ["canvas", "noise"], tone: "#07060a" },
   { slug: "constellation-net", title: "Constellation Net", genre: "particles", blurb: "Drifting nodes linking up when they get close.", tags: ["canvas", "graph"], tone: "#03040a", hint: "Your pointer is a star" },
+  { slug: "boids", title: "Boids", genre: "particles", blurb: "A flock steered by three rules: keep apart, line up, stay together. Your pointer is the predator.", tags: ["canvas", "flocking"], tone: "#05060c", hint: "Chase the flock" },
 
   // Depth
   { slug: "infinite-canvas", title: "Infinite Canvas", gate: "drag", genre: "depth", blurb: "A boundless, draggable wall of type specimens with inertia.", tags: ["drag", "wrap"], tone: "#060608", hint: "Drag in any direction" },
   { slug: "holo-card", title: "Holo Card", genre: "depth", blurb: "A foil trading card with tilt, glare and iridescent shift.", tags: ["3d", "tilt"], tone: "#0d0b14", hint: "Tilt the card" },
   { slug: "orbit-carousel", title: "Orbit Carousel", gate: "drag", genre: "depth", blurb: "A 3D ring of panels you can spin with a drag.", tags: ["3d", "drag"], tone: "#0a0a0a", hint: "Drag to spin" },
   { slug: "exploded-ui", title: "Exploded UI", genre: "depth", blurb: "An interface separated into isometric layers.", tags: ["isometric", "layers"], tone: "#ecebe6" },
+  { slug: "type-cube", title: "Type Cube", genre: "depth", blurb: "A solid CSS cube with a different typeface on every face.", tags: ["3d", "css"], tone: "#07070b", hint: "Move to turn it" },
 
   // Loaders
   { slug: "skeleton-shimmer", title: "Skeleton Shimmer", genre: "loaders", blurb: "Shimmering placeholders resolve into real content with a stagger.", tags: ["skeleton", "stagger"], tone: "#0b0b10" },
@@ -116,18 +121,21 @@ export const DEMOS: Demo[] = [
   { slug: "rgb-glitch", title: "RGB Glitch", genre: "retro", blurb: "Channel-split title with slice displacement bursts.", tags: ["glitch", "css"], tone: "#000" },
   { slug: "crt-boot", title: "CRT Boot", genre: "retro", blurb: "A phosphor terminal booting with scanlines and flicker.", tags: ["terminal", "typing"], tone: "#020a04" },
   { slug: "synth-horizon", title: "Synth Horizon", genre: "retro", blurb: "An endless neon grid racing toward a striped sun.", tags: ["canvas", "80s"], tone: "#0d0221" },
+  { slug: "glyph-rain", title: "Glyph Rain", genre: "retro", blurb: "Falling columns of pixel glyphs that part around the pointer.", tags: ["canvas", "terminal"], tone: "#020a04", hint: "Part the rain" },
 
   // Data
   { slug: "live-ticker", title: "Live Ticker", genre: "data", blurb: "A streaming chart whose price rolls digit by digit with the trend.", tags: ["svg", "realtime"], tone: "#0a0c0b" },
   { slug: "bar-race", title: "Bar Race", genre: "data", blurb: "A bar-chart race that reorders itself every year.", tags: ["layout", "race"], tone: "#0d0d10" },
   { slug: "chart-morph", title: "Chart Morph", genre: "data", blurb: "One dataset morphing between bars, line and radial views.", tags: ["svg", "morph"], tone: "#0d0d10" },
   { slug: "activity-rings", title: "Activity Rings", genre: "data", blurb: "Concentric progress rings with counting stats.", tags: ["svg", "count"], tone: "#000" },
+  { slug: "heat-calendar", title: "Heat Calendar", genre: "data", blurb: "A contribution heatmap whose busy weeks drift across the year like weather.", tags: ["canvas", "heatmap"], tone: "#0d0d10", hint: "Inspect a day" },
 
   // Organic
   { slug: "liquid-text", title: "Liquid Text", genre: "organic", blurb: "Type melting through an animated turbulence displacement filter.", tags: ["svg filter", "turbulence"], tone: "#0b0b10", hint: "Hover to stir" },
   { slug: "dot-lens", title: "Dot Lens", genre: "organic", blurb: "A field of dots bulging and glowing under a moving lens.", tags: ["canvas", "lens"], tone: "#08070c", hint: "Glide over the dots" },
   { slug: "gooey-blobs", title: "Gooey Blobs", genre: "organic", blurb: "Metaball blobs that melt into each other and chase you.", tags: ["svg filter", "pointer"], tone: "#ff4f2e", hint: "Lead the blobs" },
   { slug: "blob-morph", title: "Blob Morph", genre: "organic", blurb: "Organic shapes breathing through endless mutations.", tags: ["svg", "path"], tone: "#0b0b10" },
+  { slug: "silk-trail", title: "Silk Trail", genre: "organic", blurb: "Nine strands chase the pointer on different springs and weave into silk.", tags: ["canvas", "spring"], tone: "#08070c", hint: "Draw with the pointer" },
 
   // Editorial
   { slug: "kinetic-poster", title: "Kinetic Poster", genre: "editorial", blurb: "A Swiss poster that re-composes its type and shapes to a beat.", tags: ["poster", "spring"], tone: "#1a1a1a" },

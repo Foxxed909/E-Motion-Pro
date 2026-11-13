@@ -71,7 +71,6 @@ export default function ElasticSlider({ mini }: { mini?: boolean }) {
           dragging.current = false;
           animate(over, 0, { type: "spring", stiffness: 400, damping: 12 });
         }}
-        data-cursor="drag"
       >
         <div className="absolute inset-y-0 left-0 rounded-full bg-acid" style={{ width: `${value}%` }} />
         <div className="absolute top-1/2 h-[5cqw] w-[5cqw] -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-void bg-ink shadow-lg" style={{ left: `${value}%` }} />

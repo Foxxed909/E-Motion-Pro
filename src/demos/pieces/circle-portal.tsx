@@ -28,7 +28,6 @@ export default function CirclePortal({ mini }: { mini?: boolean }) {
     <div
       ref={box}
       className="absolute inset-0 overflow-hidden"
-      data-cursor={mini ? undefined : "open"}
       onClick={(e) => {
         const r = box.current!.getBoundingClientRect();
         lastClick.current = Date.now();

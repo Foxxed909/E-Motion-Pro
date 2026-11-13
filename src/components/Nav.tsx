@@ -26,7 +26,21 @@ export function Nav() {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => setOpen(false), [path]);
-  useEffect(() => lockScroll(open), [open]);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+  // Sticky toolbars sit under the bar while it is showing and slide up to the top when it tucks away.
+  useEffect(() => {
+    document.documentElement.toggleAttribute("data-nav-hidden", hidden && !open);
+    return () => document.documentElement.removeAttribute("data-nav-hidden");
+  }, [hidden, open]);
+  useEffect(() => {
+    lockScroll("menu", open);
+    return () => lockScroll("menu", false);
+  }, [open]);
 
   useEffect(() => {
     let last = window.scrollY;
@@ -50,11 +64,20 @@ export function Nav() {
     };
   }, []);
 
-  const isActive = (href: string) => (href.startsWith("/#") ? false : path === href || path.startsWith(href + "/"));
+  // Piece pages live under /motion but belong to the gallery.
+  const isActive = (href: string) =>
+    href.startsWith("/#") ? false : path === href || path.startsWith(href + "/") || (href === "/gallery" && path.startsWith("/motion/"));
 
   return (
     <>
+      <a
+        href="#content"
+        className="fixed left-3 top-3 z-[100] -translate-y-20 rounded-full bg-acid px-5 py-3 font-mono text-xs uppercase tracking-[0.2em] text-void transition-transform focus:translate-y-0"
+      >
+        Skip to content
+      </a>
       <motion.header
+        onFocusCapture={() => setHidden(false)}
         className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 ${
           scrolled || open ? "border-b border-line bg-void/85 backdrop-blur-md" : "border-b border-transparent"
         }`}
@@ -63,7 +86,7 @@ export function Nav() {
       >
         <nav className="mx-auto flex h-14 items-center justify-between px-4 sm:h-16 sm:px-8" aria-label="Main">
           <Link href="/" className="whitespace-nowrap font-orbit text-lg tracking-wide text-ink sm:text-xl" aria-label="E-Motion Pro home">
-            E—MOTION<sup className="ml-1 font-mono text-[10px] tracking-widest text-mute">PRO</sup>
+            E—MOTION<sup className="ml-1 font-mono text-[11px] tracking-widest text-mute">PRO</sup>
           </Link>
 
           <ul className="hidden items-center gap-8 md:flex">
@@ -124,7 +147,8 @@ export function Nav() {
                   <Link
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className={`flex items-center justify-between border-b border-line py-4 text-2xl ${path === l.href ? "text-ink" : "text-ink/80"}`}
+                    aria-current={path === l.href ? "page" : undefined}
+                    className={`flex items-center justify-between border-b border-line py-4 text-2xl ${path === l.href || isActive(l.href) ? "text-acid" : "text-ink"}`}
                   >
                     {l.label}
                     <span className="text-base text-dim">→</span>

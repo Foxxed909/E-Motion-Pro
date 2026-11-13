@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { FontsView } from "@/components/FontsView";
 import { Footer } from "@/components/Footer";
-import { FONT_COUNT, PIECE_COUNT, GENRE_COUNT } from "@/lib/counts";
+import { FONT_COUNT } from "@/lib/counts";
 
 export const metadata: Metadata = {
   title: "Type Foundry",

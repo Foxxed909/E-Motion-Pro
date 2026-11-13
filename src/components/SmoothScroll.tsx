@@ -26,9 +26,16 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-/** Lock or unlock page scrolling (used by overlays such as the preloader and palette). */
-export function lockScroll(on: boolean) {
-  document.documentElement.style.overflow = on ? "hidden" : "";
+/**
+ * Lock or unlock page scrolling for one named owner (preloader, menu, palette).
+ * Owners are tracked separately, so one overlay closing can never release a lock
+ * that another overlay still holds.
+ */
+const locks = new Set<string>();
+export function lockScroll(owner: string, on: boolean) {
+  if (on) locks.add(owner);
+  else locks.delete(owner);
+  document.documentElement.style.overflow = locks.size ? "hidden" : "";
 }
 
 export function scrollToTop() {

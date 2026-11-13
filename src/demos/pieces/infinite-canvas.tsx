@@ -87,7 +87,7 @@ export default function InfiniteCanvas({ mini }: { mini?: boolean }) {
     };
   }, [mini]);
   return (
-    <div ref={box} className="absolute inset-0 touch-none overflow-hidden select-none" data-cursor={mini ? undefined : "drag"}>
+    <div ref={box} className="absolute inset-0 touch-none overflow-hidden select-none">
       {Array.from({ length: COLS * ROWS }).map((_, i) => (
         <div key={i} ref={(n) => { tiles.current[i] = n; }} className="absolute left-0 top-0 flex flex-col justify-between rounded-[1.2cqw] p-[1.4cqw] text-white will-change-transform">
           <span ref={(n) => { labels.current[i] = n; }}>Aa</span>

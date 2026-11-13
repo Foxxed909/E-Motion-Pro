@@ -3,35 +3,39 @@
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
+import { useInView } from "@/hooks/useInView";
 import { FONTS } from "@/lib/fonts";
 import { Reveal } from "../Type";
 import { EASE } from "@/lib/motion";
 import { SectionLabel } from "../SectionLabel";
-import { FONT_COUNT, PIECE_COUNT, GENRE_COUNT } from "@/lib/counts";
+import { FONT_COUNT } from "@/lib/counts";
 
 export function TypeShowcase() {
   const [i, setI] = useState(0);
   const [auto, setAuto] = useState(true);
   const [text, setText] = useState("Make it move");
+  const [typing, setTyping] = useState(false);
+  const [ref, inView] = useInView<HTMLElement>();
+  // The tour only runs while the section is on screen and nobody is typing or has picked a face.
   useEffect(() => {
-    if (!auto) return;
-    const id = setInterval(() => setI((v) => (v + 1) % FONTS.length), 1500);
+    if (!auto || typing || !inView || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => setI((v) => (v + 1) % FONTS.length), 1800);
     return () => clearInterval(id);
-  }, [auto]);
+  }, [auto, typing, inView]);
   const f = FONTS[i];
   return (
-    <section className="relative overflow-hidden border-t border-line px-4 py-[14vh] sm:px-8">
+    <section ref={ref} className="relative overflow-hidden border-t border-line px-4 py-[14vh] sm:px-8">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr]">
         <div>
           <div className="mb-6">
-            <SectionLabel n={5}>Type tester</SectionLabel>
+            <SectionLabel n={6}>Type tester</SectionLabel>
           </div>
           <Reveal as="h2" text={`${FONT_COUNT} fonts. All new. Drawn by code.`} className="block text-[11vw] font-medium leading-[0.9] tracking-[-0.04em] text-ink sm:text-[6.5vw] lg:text-[4.8vw]" />
           <p className="mt-6 max-w-[48ch] text-mute">
             One hand-built letter skeleton, rendered {FONT_COUNT} ways by our own font engine: broad-nib pens, LED matrices, stencil cuts,
             neon tubes, glitch slices, pencil passes. Every face is a real OpenType font, free to download.
           </p>
-          <Link href="/fonts" className="mt-8 inline-flex items-center gap-3 rounded-full border border-ink/30 px-6 py-3 font-mono text-xs uppercase tracking-[0.25em] text-ink transition-colors hover:bg-ink hover:text-void">
+          <Link href="/fonts" className="mt-8 inline-flex items-center gap-3 rounded-full border border-ink/30 px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-ink transition-colors hover:bg-ink hover:text-void">
             Open the type foundry →
           </Link>
         </div>
@@ -49,7 +53,7 @@ export function TypeShowcase() {
                 {text || "Type here"}
               </motion.div>
             </AnimatePresence>
-            <div className="absolute left-6 top-5 flex gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-mute sm:left-10">
+            <div className="absolute left-6 top-5 flex gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-mute sm:left-10">
               <span className="text-acid">{String(f.index).padStart(2, "0")}</span>
               <span className="text-ink">{f.name}</span>
               <span>{f.genre}</span>
@@ -58,11 +62,20 @@ export function TypeShowcase() {
           <input
             value={text}
             onChange={(e) => setText(e.target.value.slice(0, 40))}
+            onFocus={() => setTyping(true)}
+            onBlur={() => setTyping(false)}
             aria-label="Type tester"
             className="mt-3 w-full rounded-full border border-line bg-transparent px-5 py-3 font-mono text-sm text-ink outline-none transition-colors focus:border-acid"
             placeholder="Type something…"
           />
-          <div className="mt-4 grid grid-cols-6 gap-2 sm:grid-cols-[repeat(15,minmax(0,1fr))]">
+          <div className="mt-4 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em] text-dim">
+            <span>Pick a face</span>
+            <button onClick={() => setAuto((a) => !a)} className="flex items-center gap-2 py-1 text-mute transition-colors hover:text-ink" aria-pressed={auto}>
+              <span className={`h-1.5 w-1.5 rounded-full ${auto ? "animate-pulse bg-acid" : "bg-dim"}`} />
+              {auto ? "Auto tour on" : "Auto tour off"}
+            </button>
+          </div>
+          <div className="mt-2 grid grid-cols-6 gap-2 sm:grid-cols-[repeat(15,minmax(0,1fr))]">
             {FONTS.map((x, k) => (
               <button
                 key={x.slug}
@@ -71,6 +84,8 @@ export function TypeShowcase() {
                   setI(k);
                 }}
                 title={x.name}
+                aria-label={x.name}
+                aria-pressed={k === i}
                 className={`font-${x.slug} flex aspect-square items-center justify-center rounded-lg text-xl transition-colors ${k === i ? "bg-acid text-void" : "bg-night text-ink hover:bg-smoke"}`}
               >
                 Aa

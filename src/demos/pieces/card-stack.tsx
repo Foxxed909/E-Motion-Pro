@@ -39,7 +39,6 @@ function Card({ p, depth, onGone, auto }: { p: (typeof PEOPLE)[number]; depth: n
       onDragEnd={(_, info) => {
         if (Math.abs(info.offset.x) > 120 || Math.abs(info.velocity.x) > 600) fling(Math.sign(info.offset.x || info.velocity.x));
       }}
-      data-cursor={top ? "swipe" : undefined}
     >
       <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-[3cqh] text-white">
         <div className={`font-${p.font} text-[6cqh] leading-none`}>{p.name}</div>

@@ -9,7 +9,7 @@ export default async function AppleIcon() {
   const orbit = await fs.readFile(path.join(process.cwd(), "public", "fonts", "orbit.otf"));
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#060608", color: "#d4ff3a", fontFamily: "Orbit", fontSize: 120 }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "#09090c", color: "#d4ff3a", fontFamily: "Orbit", fontSize: 120 }}>
         E
       </div>
     ),

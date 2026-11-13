@@ -8,7 +8,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { siteUrl } from "@/lib/site";
 import { Nav } from "@/components/Nav";
 import { CommandPalette } from "@/components/CommandPalette";
-import { FONT_COUNT, PIECE_COUNT, GENRE_COUNT } from "@/lib/counts";
+import { FONT_COUNT } from "@/lib/counts";
 
 export const metadata: Metadata = {
   title: { default: "E-Motion Pro — Motion Library", template: "%s · E-Motion Pro" },
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#060608",
+  themeColor: "#09090c",
   colorScheme: "dark",
 };
 
@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans">
         <Providers>
           <Nav />
-          <main>{children}</main>
+          <main id="content">{children}</main>
           <CommandPalette />
           <div className="grain" aria-hidden />
         </Providers>

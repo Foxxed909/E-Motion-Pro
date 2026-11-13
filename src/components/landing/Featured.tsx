@@ -51,12 +51,12 @@ function Card({ d, i, p, active }: { d: Demo; i: number; p: MotionValue<number>;
   const meta = useTransform(dist, [0, 0.5], [1, 0]);
   return (
     <motion.div className="w-[58vw] shrink-0" style={{ scale }}>
-      <Link href={`/motion/${d.slug}`} className="group block" data-cursor="view">
+      <Link href={`/motion/${d.slug}`} className="group block">
         <div className="relative overflow-hidden rounded-3xl ring-1 ring-line">
           <Stage demo={d} mini live={active} className="aspect-[16/10] w-full" />
           <motion.div className="pointer-events-none absolute inset-0 bg-void" style={{ opacity: dim }} />
         </div>
-        <motion.div className="mt-4 flex items-baseline justify-between font-mono text-xs uppercase tracking-[0.25em] text-mute" style={{ opacity: meta }}>
+        <motion.div className="mt-4 flex items-baseline justify-between font-mono text-xs uppercase tracking-[0.2em] text-mute" style={{ opacity: meta }}>
           <span>{d.tags.join(" · ")}</span>
           <span className="text-acid">Open piece →</span>
         </motion.div>
@@ -87,7 +87,7 @@ function FeaturedPinned() {
   const [active, setActive] = useState(0);
   useMotionValueEvent(scrollYProgress, "change", (v) => setActive(Math.round(v * (N - 1))));
   return (
-    <section ref={ref} className="relative hidden md:block" style={{ height: `calc(100svh + ${(N - 1) * geo.step * 0.9}px)` }}>
+    <section ref={ref} className="relative hidden md:block" style={{ height: `calc(100svh + ${(N - 1) * 0.9} * (58vw + 2.5rem))` }}>
       <div className="sticky top-0 flex h-[100svh] flex-col justify-center gap-6 overflow-hidden">
         <div className="flex items-end justify-between gap-6 px-8">
           <div>

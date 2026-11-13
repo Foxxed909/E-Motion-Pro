@@ -24,11 +24,14 @@ export function SoundFX() {
       sound.unlock();
       if ((e.target as Element)?.closest?.("a,button,[role=button]")) sound.play("click");
     };
+    const key = () => sound.unlock();
     window.addEventListener("pointerover", over, { passive: true });
     window.addEventListener("pointerdown", down, { passive: true });
+    window.addEventListener("keydown", key);
     return () => {
       window.removeEventListener("pointerover", over);
       window.removeEventListener("pointerdown", down);
+      window.removeEventListener("keydown", key);
     };
   }, []);
   useEffect(() => {

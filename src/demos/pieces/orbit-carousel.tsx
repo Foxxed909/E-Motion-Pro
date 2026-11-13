@@ -47,7 +47,6 @@ export default function OrbitCarousel({ mini }: { mini?: boolean }) {
         dragging.current = false;
         animate(rot, rot.get() + last.current.v * 400, { type: "spring", stiffness: 40, damping: 20 });
       }}
-      data-cursor="drag"
     >
       <motion.div className="relative h-[46cqh] w-[22cqh]" style={{ transformStyle: "preserve-3d", transform }}>
         {PICK.map((f, i) => (

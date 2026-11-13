@@ -50,7 +50,7 @@ export function GenreIndex() {
                 sy.jump(e.clientY);
                 setActive(i);
               }} className="border-t border-line last:border-b">
-              <Link href={`/gallery?genre=${g.id}`} className="group relative flex items-center justify-between gap-4 overflow-hidden py-4 sm:py-5" data-cursor="open">
+              <Link href={`/gallery?genre=${g.id}`} className="group relative flex items-center justify-between gap-4 overflow-hidden py-4 sm:py-5">
                 <motion.span
                   className="absolute inset-0 origin-bottom bg-ink"
                   initial={false}
@@ -67,7 +67,7 @@ export function GenreIndex() {
                     {g.name}
                   </motion.span>
                 </span>
-                <span className={`relative hidden text-right font-mono text-[10px] uppercase tracking-[0.25em] transition-colors duration-300 md:block ${on ? "text-void" : "text-mute"}`}>
+                <span className={`relative hidden text-right font-mono text-[11px] uppercase tracking-[0.2em] transition-colors duration-300 md:block ${on ? "text-void" : "text-mute"}`}>
                   {g.line}
                   <br />
                   {String(count).padStart(2, "0")} pieces
